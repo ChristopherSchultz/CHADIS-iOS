@@ -34,9 +34,7 @@ class QuestWebView: UIViewController {
             url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
             print("not a default status")
             
-            
         }
-        
         print(url)
         questView.load(URLRequest(url: url))
         

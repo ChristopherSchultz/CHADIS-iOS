@@ -16,22 +16,23 @@ class ViewController: UIViewController {
     var loginSuccess = false
     var sessionID = ""
     var session : URLSession!
-    
+    var lang = NSLocale.preferredLanguages[0]
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var savePass: UISwitch!
     
+    @IBAction func switchChanged(_ sender: Any) {
+        if savePass.isOn == false {
+            UserDefaults.standard.set(false, forKey: "savePass")
+        }else{
+            UserDefaults.standard.set(true, forKey: "savePass")
+        }
+    }
+    
+    
     @IBAction func login(_ sender: Any) {
         session = URLSession(configuration: URLSessionConfiguration.default)
         loginSuccess = false
-        if savePass.isOn {
-            UserDefaults.standard.set(password.text, forKey: "savedPass")
-            UserDefaults.standard.set(true, forKey: "savePass")
-        }else{
-            UserDefaults.standard.set(false, forKey: "savePass")
-        }
-       
-        
         let name = username.text!
         let pass = password.text!
         let sem = DispatchSemaphore(value: 0)
@@ -62,6 +63,14 @@ class ViewController: UIViewController {
         sem.wait()
         if self.loginSuccess {
             self.performSegue(withIdentifier: "login", sender: self)
+            if savePass.isOn {
+                UserDefaults.standard.set(password.text, forKey: "savedPass")
+                UserDefaults.standard.set(username.text, forKey: "savedUser")
+                UserDefaults.standard.set(true, forKey: "savePass")
+                
+            }else{
+                UserDefaults.standard.set(false, forKey: "savePass")
+            }
            
         }
         
@@ -92,10 +101,32 @@ class ViewController: UIViewController {
         if UserDefaults.standard.bool(forKey: "savePass") {
             savePass.setOn(true, animated: false)
             password.text = UserDefaults.standard.string(forKey: "savedPass")
+            username.text = UserDefaults.standard.string(forKey: "savedUser")
         }
+        
+        
+        
+        print("USER'S PREFERRED LANGUAGE: \(self.lang)")
         // Do any additional setup after loading the view, typically from a nib.
       
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if savePass.isOn == false {
+            UserDefaults.standard.set(false, forKey: "savedPass")
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if savePass.isOn == false {
+            username.text = ""
+            password.text = ""
+            
+        }
+    }
+    
+    
+  
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

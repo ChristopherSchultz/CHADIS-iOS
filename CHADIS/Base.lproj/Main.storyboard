@@ -73,7 +73,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVR-H7-RYv">
                                         <rect key="frame" x="135" y="90" width="200" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFp-VZ-lpx">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFp-VZ-lpx">
                                                 <rect key="frame" x="0.0" y="0.0" width="151" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.4816623263888889" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -81,6 +81,9 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hMN-hP-m8D">
                                                 <rect key="frame" x="151" y="0.0" width="51" height="20"/>
+                                                <connections>
+                                                    <action selector="switchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="VyE-RY-HGS"/>
+                                                </connections>
                                             </switch>
                                         </subviews>
                                         <constraints>
@@ -134,7 +137,9 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="CHADIS" id="GjK-lj-CGv">
-                        <barButtonItem key="rightBarButtonItem" title="web CHADIS" id="9Ic-jp-Dfa">
+                        <barButtonItem key="rightBarButtonItem" title="Web CHADIS" image="webIcon" id="9Ic-jp-Dfa">
+                            <inset key="largeContentSizeImageInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="gih-5W-li0" kind="show" identifier="noLogin" id="zYY-mm-Mpb"/>
                             </connections>
@@ -440,7 +445,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ChadisLogo" width="500" height="500"/>
+        <image name="ChadisLogo" width="250" height="250"/>
+        <image name="webIcon" width="58" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zYY-mm-Mpb"/>

@@ -38,11 +38,13 @@ class patientViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.title = "Patients"
+        ping()
         
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.plain,
                                             target: self, action: #selector(patientViewController.back(sender:)))
         let newWebButton = UIBarButtonItem(title: "Web CHADIS", style: UIBarButtonItemStyle.plain, target: self, action: #selector(patientViewController.web(sender:)))
+        newWebButton.image = UIImage(named: "webIcon.png")
         self.navigationItem.rightBarButtonItem = newWebButton
         self.navigationItem.leftBarButtonItem = newBackButton
         
@@ -125,11 +127,31 @@ class patientViewController: UITableViewController {
             dest.loggedIn = true
             dest.username = self.username
             dest.password = self.pass
-            dest.urlString = "https://dev.chadis.com/cschultz-chadis/respondent/api/login.do?username=\((self.username)!)&password=\((self.pass)!)"
+            dest.urlString = "https://dev.chadis.com/cschultz-chadis/staff/home.do;jsessionid=\(self.sessionID)?)"
             
         }
         
     }
     
+    func ping() {
+        let pingUrl = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/ping.do")
+        let request = URLRequest(url: pingUrl!)
+        session.dataTask(with: request){ ( data, response, error) in
+            
+            if let data = data {
+                do {
+                    
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
+                    print(json)
+                 
+                    
+                } catch {
+                    print(error)
+                }
+             
+            }
+            
+            }.resume()
+    }
     
 }
