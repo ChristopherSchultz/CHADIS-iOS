@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+/* Ths following are structs used to store the patients using the decodable protocol
+ This allows the JSON to be parsed automatically into given structs that share the same parameters
+ as the JSON */
 struct PatientList: Decodable {
     var patients: [Patient]
 }
@@ -22,13 +25,14 @@ struct Patient: Decodable {
     
 }
 
-
+/* This view controller is responsible for displaying all of the patients of a given respondent
+It does this by retrieving the information from the server. */
 class patientViewController: UITableViewController {
     
     
     var sessionID = String()
     var session = URLSession()
-    var masterPatientList: PatientList?
+    var masterPatientList: PatientList? //This is the patient list that will ultimately be displayed
     let sem = DispatchSemaphore.init(value: 0)
     var username: String!
     var pass: String!
@@ -36,11 +40,13 @@ class patientViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //The following is simply setup that I do to ensure the look of the app is consistent, I also
+        // modify the navigation bar so that the functionality suits my purposes
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.title = "Patients"
-        ping()
-        
         self.navigationItem.hidesBackButton = true
+        
         let newBackButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.plain,
                                             target: self, action: #selector(patientViewController.back(sender:)))
         let newWebButton = UIBarButtonItem(title: "Web CHADIS", style: UIBarButtonItemStyle.plain, target: self, action: #selector(patientViewController.web(sender:)))
@@ -48,7 +54,9 @@ class patientViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = newWebButton
         self.navigationItem.leftBarButtonItem = newBackButton
         
-        //let url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/ping.do")
+        //Here is the URL Request and all of the parameters.
+        //Note: I do not have to set cookies since the session was passed in from the previous view controller
+        //allowing me to retrieve the patient list without having to pass in additional parameters
         let url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/patients.do")
         let request = URLRequest(url: url!)
         session.dataTask(with: request) { ( data, response, error) in
@@ -59,6 +67,8 @@ class patientViewController: UITableViewController {
                    // let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodePatient = try JSONDecoder().decode(PatientList.self, from: data)
                  //  print("Patients: \(decodePatient)")
+                    
+                    //this line gets the patient array and puts it into a local variable
                     self.masterPatientList = decodePatient
                     
                 } catch {
@@ -70,29 +80,32 @@ class patientViewController: UITableViewController {
         }.resume()
         sem.wait()
         
-            
-        
         
     
     }
     
+    //This function occurs whenever the back/logout button is pressed and invalidates and cancels the
+    // URL Session allowing the user to safely logout and log back in
     @objc func back(sender: UIBarButtonItem){
         print(session)
         session.invalidateAndCancel()
         _ = navigationController?.popViewController(animated: true)
     }
     
+    //this function simply sends the user to the webview page with the session ID embedded into the URL
     @objc func web(sender: UIBarButtonItem){
 
         performSegue(withIdentifier: "loggedIn", sender: self)
         
     }
     
+    //this function determines how many cells to display which is simply the number of patients
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return (masterPatientList?.patients.count)!
     }
     
+    //This function determines what each cell will display. Currently it displays the patient's first and last name
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PatientCell", for: indexPath) as! PatientCell
@@ -102,6 +115,7 @@ class patientViewController: UITableViewController {
     }
     
     
+    //These segues pass on desired information into the following view controllers.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "patientInfo" {
@@ -133,6 +147,8 @@ class patientViewController: UITableViewController {
         
     }
     
+    //this function is designed to ping the server and receive a response. As of right now, it has no use
+    // but it could prove to be useful at a later date.
     func ping() {
         let pingUrl = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/ping.do")
         let request = URLRequest(url: pingUrl!)
