@@ -36,10 +36,18 @@ class patientViewController: UITableViewController {
     let sem = DispatchSemaphore.init(value: 0)
     var username: String!
     var pass: String!
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredPatients = [Patient]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Patients"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         //The following is simply setup that I do to ensure the look of the app is consistent, I also
         // modify the navigation bar so that the functionality suits my purposes
@@ -101,16 +109,25 @@ class patientViewController: UITableViewController {
     
     //this function determines how many cells to display which is simply the number of patients
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if isFiltering() {
+            return filteredPatients.count
+        }else{
         return (masterPatientList?.patients.count)!
+        }
+        
     }
     
     //This function determines what each cell will display. Currently it displays the patient's first and last name
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PatientCell", for: indexPath) as! PatientCell
-        let patient = masterPatientList?.patients[indexPath.row]
-        cell.patientName.text = "\((patient?.last)!), \((patient?.first)!)"
+        let patient: Patient
+        if isFiltering() {
+            patient = filteredPatients[indexPath.row]
+        }else{
+            patient = (masterPatientList?.patients[indexPath.row])!
+    }
+        cell.patientName.text = "\((patient.last)), \((patient.first))"
         return cell
     }
     
@@ -170,4 +187,27 @@ class patientViewController: UITableViewController {
             }.resume()
     }
     
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredPatients = masterPatientList!.patients.filter({( patient : Patient) -> Bool in
+            let fullname = patient.first + patient.last
+            return fullname.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+}
+
+extension patientViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 }
