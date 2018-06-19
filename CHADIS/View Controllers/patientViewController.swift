@@ -65,7 +65,7 @@ class patientViewController: UITableViewController {
         //Here is the URL Request and all of the parameters.
         //Note: I do not have to set cookies since the session was passed in from the previous view controller
         //allowing me to retrieve the patient list without having to pass in additional parameters
-        let url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/patients.do")
+        let url = URL(string: baseURLString! + "respondent/api/patients.do")
         let request = URLRequest(url: url!)
         session.dataTask(with: request) { ( data, response, error) in
             
@@ -158,7 +158,7 @@ class patientViewController: UITableViewController {
             dest.loggedIn = true
             dest.username = self.username
             dest.password = self.pass
-            dest.urlString = "https://dev.chadis.com/cschultz-chadis/staff/home.do;jsessionid=\(self.sessionID)?)"
+            dest.urlString = baseURLString! + "staff/home.do;jsessionid=\(self.sessionID)?)"
             
         }
         
@@ -167,7 +167,7 @@ class patientViewController: UITableViewController {
     //this function is designed to ping the server and receive a response. As of right now, it has no use
     // but it could prove to be useful at a later date.
     func ping() {
-        let pingUrl = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/ping.do")
+        let pingUrl = URL(string: baseURLString! + "respondent/api/ping.do")
         let request = URLRequest(url: pingUrl!)
         session.dataTask(with: request){ ( data, response, error) in
             

@@ -35,6 +35,8 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     var session = URLSession()
     var questList = [quest]()
     var sessionid: String!
+    var searchController = UISearchController(searchResultsController: nil)
+    var filteredQuest = [quest]()
     
     
     
@@ -42,13 +44,19 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         questTable.delegate = self
         questTable.dataSource = self
+       
+       searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Questionnaires"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         
         patientName.text = "\((patient?.last)!), \((patient?.first)!)"
         DOB.text = "DOB: \((patient?.dob)!)"
         let sem = DispatchSemaphore(value: 0)
         let id = "?id=\((patient?.id)!)"
-        let url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/patient/questionnaires.do" + id)
+        let url = URL(string: baseURLString! + "respondent/api/patient/questionnaires.do" + id)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         session.dataTask(with: request) { (data,response,error) in
@@ -81,7 +89,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         DOB.text = "DOB: \((patient?.dob)!)"
         let sem = DispatchSemaphore(value: 0)
         let id = "?id=\((patient?.id)!)"
-        let url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/patient/questionnaires.do" + id)
+        let url = URL(string: baseURLString! + "respondent/api/patient/questionnaires.do" + id)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         session.dataTask(with: request) { (data,response,error) in
@@ -104,12 +112,21 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredQuest.count
+        }else {
         return questList.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "questCell", for: indexPath) as! questCell
-        let quest = questList[indexPath.row]
+        let quest: quest!
+        if isFiltering() {
+        quest = filteredQuest[indexPath.row]
+        }else {
+        quest = questList[indexPath.row]
+        }
         cell.questName.text = quest.name
         cell.status.text = String(quest.status_id)
         
@@ -141,4 +158,28 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
   
     
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredQuest = questList.filter({( quest : quest) -> Bool in
+            let fullname = quest.name
+            return fullname.lowercased().contains(searchText.lowercased())
+        })
+        
+        questTable.reloadData()
+    }
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
 }
+
+extension patientInfoView: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+

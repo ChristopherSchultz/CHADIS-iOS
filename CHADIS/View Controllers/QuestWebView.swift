@@ -14,7 +14,6 @@ class QuestWebView: UIViewController {
     
     
     @IBOutlet weak var questView: WKWebView!
-    
     var status: Int!
     var pqid: Int!
     var sessionid: String!
@@ -24,14 +23,14 @@ class QuestWebView: UIViewController {
         var url: URL
         switch status {
             case 1:
-                url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+                url = URL(string: baseURLString! + "respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         case 2:
-            url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/questionnaire/resume.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+            url = URL(string: baseURLString! + "respondent/questionnaire/resume.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         case 3:
-            url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/questionnaire/review.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+            url = URL(string: baseURLString! + "respondent/questionnaire/review.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
             
         default:
-            url = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+            url = URL(string: baseURLString! + "respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
             print("not a default status")
             
         }

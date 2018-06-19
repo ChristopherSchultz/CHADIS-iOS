@@ -9,6 +9,8 @@
 import UIKit
 import WebKit
 
+var baseURLString = UserDefaults.standard.string(forKey: "baseURL")
+
 
 /* View controller class that controls the login screen and all of its various functions */
 class ViewController: UIViewController {
@@ -42,7 +44,8 @@ class ViewController: UIViewController {
         let pass = password.text!
         let sem = DispatchSemaphore(value: 0)
         let parameters = ["username": name, "password": pass]
-        let loginURL = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/login.do")
+        //let loginURL = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/login.do")
+        let loginURL = URL(string: baseURLString! + "respondent/api/login.do")
         var request = URLRequest(url: loginURL!)
         
         //modifying the URL Request with the proper parameters
@@ -98,7 +101,7 @@ class ViewController: UIViewController {
         if segue.identifier == "noLogin" {
             let dest = segue.destination as! webViewController
             dest.loggedIn = false
-            dest.urlString = "https://dev.chadis.com/cschultz-chadis"
+            dest.urlString = baseURLString
         }
         
         

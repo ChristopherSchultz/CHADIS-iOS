@@ -21,7 +21,6 @@ class optionsController: UICollectionViewController {
    
     override func viewDidLoad() {
         
-        
         switch status{
         case 1:
             options = ["Begin"]

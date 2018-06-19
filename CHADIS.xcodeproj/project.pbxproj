@@ -10,6 +10,7 @@
 		821358AD20D0145500223314 /* QuestWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358AC20D0145500223314 /* QuestWebView.swift */; };
 		821358AF20D021A800223314 /* optionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358AE20D021A800223314 /* optionsController.swift */; };
 		821358B120D0221E00223314 /* optionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358B020D0221E00223314 /* optionCell.swift */; };
+		821358B520D80B9000223314 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358B420D80B9000223314 /* SettingsViewController.swift */; };
 		827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670120C585A0002E4F24 /* AppDelegate.swift */; };
 		827B670420C585A1002E4F24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670320C585A1002E4F24 /* ViewController.swift */; };
 		827B670720C585A1002E4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827B670520C585A1002E4F24 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 		821358AC20D0145500223314 /* QuestWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestWebView.swift; sourceTree = "<group>"; };
 		821358AE20D021A800223314 /* optionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = optionsController.swift; sourceTree = "<group>"; };
 		821358B020D0221E00223314 /* optionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = optionCell.swift; sourceTree = "<group>"; };
+		821358B420D80B9000223314 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		827B66FE20C585A0002E4F24 /* CHADIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHADIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B670120C585A0002E4F24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		827B670320C585A1002E4F24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				827B670320C585A1002E4F24 /* ViewController.swift */,
+				821358B420D80B9000223314 /* SettingsViewController.swift */,
 				827B671320C5D0D5002E4F24 /* webViewController.swift */,
 				827B671520C6DB79002E4F24 /* patientViewController.swift */,
 				827B671B20CB303E002E4F24 /* patientInfoView.swift */,
@@ -177,6 +180,7 @@
 			files = (
 				821358B120D0221E00223314 /* optionCell.swift in Sources */,
 				821358AD20D0145500223314 /* QuestWebView.swift in Sources */,
+				821358B520D80B9000223314 /* SettingsViewController.swift in Sources */,
 				827B671C20CB303E002E4F24 /* patientInfoView.swift in Sources */,
 				827B670420C585A1002E4F24 /* ViewController.swift in Sources */,
 				827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */,
