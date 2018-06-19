@@ -47,7 +47,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
        
        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Questionnaires"
+        searchController.searchBar.placeholder = NSLocalizedString("search Quests", comment: "searchbar placeholder quests")
         navigationItem.searchController = searchController
         definesPresentationContext = true
         

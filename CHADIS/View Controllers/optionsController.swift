@@ -17,19 +17,23 @@ class optionsController: UICollectionViewController {
     var numCells: Int!
     var options: [String]!
     var sessionid: String!
-    
+    var begin = NSLocalizedString("begin", comment: "begin option")
+    var cont = NSLocalizedString("continue", comment: "continue option")
+    var review =  NSLocalizedString("review", comment: "review option")
+    var restart = NSLocalizedString("restart", comment: "restart option")
+    var sub = NSLocalizedString("submit", comment: "submit option")
    
     override func viewDidLoad() {
         
         switch status{
         case 1:
-            options = ["Begin"]
+            options = [begin]
         case 2:
-            options = ["Continue","Review","Restart"]
+            options = [cont,review,restart]
         case 3:
-            options = ["Review","Submit","Restart"]
+            options = [review,sub,restart]
         case 4,7,8:
-            options = ["Review"]
+            options = [review]
         default:
             options = ["Error, Please Try Again"]
         }

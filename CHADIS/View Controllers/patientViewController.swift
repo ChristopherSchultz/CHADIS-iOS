@@ -45,7 +45,7 @@ class patientViewController: UITableViewController {
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Patients"
+        searchController.searchBar.placeholder = NSLocalizedString("Patient Search", comment: "Searchbar placeholder")
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
@@ -55,7 +55,7 @@ class patientViewController: UITableViewController {
         self.title = "Patients"
         self.navigationItem.hidesBackButton = true
         
-        let newBackButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.plain,
+        let newBackButton = UIBarButtonItem(title: NSLocalizedString("Logout", comment: "logout button"), style: UIBarButtonItemStyle.plain,
                                             target: self, action: #selector(patientViewController.back(sender:)))
         let newWebButton = UIBarButtonItem(title: "Web CHADIS", style: UIBarButtonItemStyle.plain, target: self, action: #selector(patientViewController.web(sender:)))
         newWebButton.image = UIImage(named: "webIcon.png")

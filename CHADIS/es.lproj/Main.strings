@@ -1,0 +1,63 @@
+
+/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[0] = "English"; ObjectID = "2mK-mW-TDG"; */
+"2mK-mW-TDG.segmentTitles[0]" = "Inglés";
+
+/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[1] = "Spanish"; ObjectID = "2mK-mW-TDG"; */
+"2mK-mW-TDG.segmentTitles[1]" = "Español";
+
+/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[2] = "French"; ObjectID = "2mK-mW-TDG"; */
+"2mK-mW-TDG.segmentTitles[2]" = "Francés";
+
+/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[3] = "Chinese"; ObjectID = "2mK-mW-TDG"; */
+"2mK-mW-TDG.segmentTitles[3]" = "Chino";
+
+/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[4] = "Auto"; ObjectID = "2mK-mW-TDG"; */
+"2mK-mW-TDG.segmentTitles[4]" = "Auto";
+
+/* Class = "UILabel"; text = "Option"; ObjectID = "4JO-mf-Fgq"; */
+"4JO-mf-Fgq.text" = "Opción";
+
+/* Class = "UIBarButtonItem"; title = "Settings"; ObjectID = "5tw-9m-DDo"; */
+"5tw-9m-DDo.title" = "Config";
+
+/* Class = "UILabel"; text = "DOB"; ObjectID = "5wB-Tk-v3P"; */
+"5wB-Tk-v3P.text" = "DOB";
+
+/* Class = "UITextField"; placeholder = "(May be email)"; ObjectID = "8FR-6X-pDs"; */
+"8FR-6X-pDs.placeholder" = "(correo electrónico)";
+
+/* Class = "UIBarButtonItem"; title = "Web CHADIS"; ObjectID = "9Ic-jp-Dfa"; */
+"9Ic-jp-Dfa.title" = "Web CHADIS";
+
+/* Class = "UINavigationItem"; title = "CHADIS"; ObjectID = "GjK-lj-CGv"; */
+"GjK-lj-CGv.title" = "CHADIS";
+
+/* Class = "UILabel"; text = "Username "; ObjectID = "Noh-6g-jHr"; */
+"Noh-6g-jHr.text" = "Usuario ";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "UWu-tN-Vya"; */
+"UWu-tN-Vya.text" = "Contraseña";
+
+/* Class = "UILabel"; text = "Language"; ObjectID = "acR-w6-5I6"; */
+"acR-w6-5I6.text" = "Lengua";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "afF-QB-H9e"; */
+"afF-QB-H9e.normalTitle" = "Iniciar Sesión";
+
+/* Class = "UILabel"; text = "Base URL"; ObjectID = "cOa-JV-kmG"; */
+"cOa-JV-kmG.text" = "Base URL";
+
+/* Class = "UILabel"; text = "Status"; ObjectID = "fjL-Yb-cX3"; */
+"fjL-Yb-cX3.text" = "Estado";
+
+/* Class = "UILabel"; text = "patientName"; ObjectID = "fta-Ts-gzi"; */
+"fta-Ts-gzi.text" = "patientName";
+
+/* Class = "UILabel"; text = "Remember me"; ObjectID = "gFp-VZ-lpx"; */
+"gFp-VZ-lpx.text" = "Recuérdame";
+
+/* Class = "UILabel"; text = "Quest Name"; ObjectID = "h55-ly-tPa"; */
+"h55-ly-tPa.text" = "Quest Name";
+
+/* Class = "UILabel"; text = "Patient Name"; ObjectID = "nKf-04-xWx"; */
+"nKf-04-xWx.text" = "Patient Name";

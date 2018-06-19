@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var username: UITextField! //these are the fields and switch that the user interacts with
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var savePass: UISwitch!
+    @IBOutlet weak var loginFailed: UILabel!
     
     //function used to determine whether the switch has changed or not in order to determine whether to save
     //the user's credentials
@@ -47,6 +48,7 @@ class ViewController: UIViewController {
         //let loginURL = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/login.do")
         let loginURL = URL(string: baseURLString! + "respondent/api/login.do")
         var request = URLRequest(url: loginURL!)
+        
         
         //modifying the URL Request with the proper parameters
         request.httpMethod = "POST"
@@ -111,6 +113,7 @@ class ViewController: UIViewController {
     //Note: the function is only called once since it is attached to a navigation bar
     override func viewDidLoad() {
         super.viewDidLoad()
+        loginFailed.isHidden = true
         self.navigationController?.navigationBar.tintColor = UIColor.white
         if UserDefaults.standard.bool(forKey: "savePass") {
             savePass.setOn(true, animated: false)
@@ -142,6 +145,7 @@ class ViewController: UIViewController {
     //to save or not save user credentials
     func saveCredentials() {
         if self.loginSuccess {
+            loginFailed.isHidden = true
             self.performSegue(withIdentifier: "login", sender: self)
             if savePass.isOn {
                 UserDefaults.standard.set(password.text, forKey: "savedPass")
@@ -152,6 +156,8 @@ class ViewController: UIViewController {
                 UserDefaults.standard.set(false, forKey: "savePass")
             }
             
+        }else{
+            loginFailed.isHidden = false
         }
         
         

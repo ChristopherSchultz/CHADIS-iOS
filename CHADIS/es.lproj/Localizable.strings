@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  CHADIS
+
+  Created by Paxon Yu on 6/19/18.
+  Copyright © 2018 Paxon Yu. All rights reserved.
+*/
+"Patient Search" = "Buscar Pacientes";
+"search Quests" = "Buscar Cuestionarios";
+"begin" = "Comenzar";
+"continue" = "Continuar";
+"review" = "Revisar";
+"restart" = "Reinciar";
+"submit" = "Enviar";
+"Logout" = "Salir";

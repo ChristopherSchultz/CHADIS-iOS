@@ -95,7 +95,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="y3t-Z6-bjk" userLabel="Super Stack">
-                                <rect key="frame" x="20" y="194" width="335" height="155"/>
+                                <rect key="frame" x="20" y="194" width="335" height="190.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="b9R-hJ-H2e">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
@@ -178,6 +178,12 @@
                                             <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LiP-cd-g9E"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login Failed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlL-bI-dQW">
+                                        <rect key="frame" x="243.5" y="170" width="91.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.22393120659722221" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="b9R-hJ-H2e" firstAttribute="leading" secondItem="y3t-Z6-bjk" secondAttribute="leading" id="127-Jk-NGD"/>
@@ -228,6 +234,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="loginFailed" destination="VlL-bI-dQW" id="csd-Hn-1jU"/>
                         <outlet property="password" destination="yhf-Ij-kk4" id="Rvx-9U-sH9"/>
                         <outlet property="savePass" destination="hMN-hP-m8D" id="adW-36-MMz"/>
                         <outlet property="username" destination="8FR-6X-pDs" id="Ewi-8g-W9j"/>
