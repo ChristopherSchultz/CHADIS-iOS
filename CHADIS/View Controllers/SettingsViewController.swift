@@ -14,6 +14,17 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var language: UISegmentedControl!
     @IBOutlet weak var baseURL: UITextField!
     
+    @IBOutlet weak var touchSwitch: UISwitch!
+    
+    @IBAction func touchChanged(_ sender: Any) {
+        if touchSwitch.isOn {
+        UserDefaults.standard.set(true, forKey: "UseTouch")
+        }else{
+            UserDefaults.standard.set(false, forKey: "UseTouch")
+        }
+        
+    }
+    
     @IBAction func urlChanged(_ sender: Any) {
         UserDefaults.standard.set(baseURL.text, forKey: "baseURL")
         baseURLString = baseURL.text
@@ -37,6 +48,13 @@ class SettingsViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        
+        if UserDefaults.standard.bool(forKey: "UseTouch"){
+            touchSwitch.setOn(true, animated: true)
+        }else{
+            touchSwitch.setOn(false, animated: true
+            )
+        }
         if UserDefaults.standard.string(forKey: "baseURL") == nil {
             UserDefaults.standard.set("https://dev.chadis.com/cschultz-chadis/", forKey: "baseURL")
         }

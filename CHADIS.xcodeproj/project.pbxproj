@@ -12,6 +12,7 @@
 		821358B120D0221E00223314 /* optionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358B020D0221E00223314 /* optionCell.swift */; };
 		821358B520D80B9000223314 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358B420D80B9000223314 /* SettingsViewController.swift */; };
 		821358BC20D96B4800223314 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 821358BA20D96B4800223314 /* Localizable.strings */; };
+		821358C120D9A26000223314 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821358C020D9A26000223314 /* LocalAuthentication.framework */; };
 		827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670120C585A0002E4F24 /* AppDelegate.swift */; };
 		827B670420C585A1002E4F24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670320C585A1002E4F24 /* ViewController.swift */; };
 		827B670720C585A1002E4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827B670520C585A1002E4F24 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		821358BB20D96B4800223314 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		821358BD20D96B4C00223314 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		821358BE20D96B4E00223314 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		821358C020D9A26000223314 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		827B66FE20C585A0002E4F24 /* CHADIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHADIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B670120C585A0002E4F24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		827B670320C585A1002E4F24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,17 +55,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				821358C120D9A26000223314 /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		821358BF20D9A25F00223314 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				821358C020D9A26000223314 /* LocalAuthentication.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		827B66F520C585A0002E4F24 = {
 			isa = PBXGroup;
 			children = (
 				827B670020C585A0002E4F24 /* CHADIS */,
 				827B66FF20C585A0002E4F24 /* Products */,
+				821358BF20D9A25F00223314 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

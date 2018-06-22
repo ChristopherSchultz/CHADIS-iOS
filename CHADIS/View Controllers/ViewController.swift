@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import LocalAuthentication
 
 var baseURLString = UserDefaults.standard.string(forKey: "baseURL")
 
@@ -23,6 +24,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var savePass: UISwitch!
     @IBOutlet weak var loginFailed: UILabel!
+    @IBOutlet weak var loggingIn: UIActivityIndicatorView!
+    
+    @IBAction func test(_ sender: Any) {
+        loggingIn.startAnimating()
+    }
+    
+    
+   
+    
     
     //function used to determine whether the switch has changed or not in order to determine whether to save
     //the user's credentials
@@ -34,9 +44,11 @@ class ViewController: UIViewController {
         }
     }
     
+    
     //function that activates whenever the login button is pressed. Sends a request to the server to determine
     //validation.
     @IBAction func login(_ sender: Any) {
+        
         
         //instantiates the URL Session and sets up all of the proper parameters
         session = URLSession(configuration: URLSessionConfiguration.default)
@@ -63,6 +75,7 @@ class ViewController: UIViewController {
             //relevant information
             if let data = data{
                 do {
+                    
                     let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject
                     print("LOGIN success")
                     if let id = json["session"] as? NSDictionary {
@@ -120,9 +133,11 @@ class ViewController: UIViewController {
             password.text = UserDefaults.standard.string(forKey: "savedPass")
             username.text = UserDefaults.standard.string(forKey: "savedUser")
         }
+        if UserDefaults.standard.bool(forKey: "UseTouch") && UserDefaults.standard.bool(forKey: "savePass"){
+         self.authenticationWithTouchID()
+        }
         
-        
-        
+
         print("USER'S PREFERRED LANGUAGE: \(self.lang)")
         // Do any additional setup after loading the view, typically from a nib.
       
@@ -144,6 +159,8 @@ class ViewController: UIViewController {
     //function that determines whether a login was successful and if it was
     //to save or not save user credentials
     func saveCredentials() {
+        
+        print("credentials saved")
         if self.loginSuccess {
             loginFailed.isHidden = true
             self.performSegue(withIdentifier: "login", sender: self)
@@ -162,6 +179,95 @@ class ViewController: UIViewController {
         
         
     }
+    
+    func doLogin(){
+        self.login(self)
+    }
+    
+    
 
+}
+
+extension ViewController {
+    
+    func authenticationWithTouchID() {
+        let context = LAContext()
+        
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error){
+            context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Access requires Authentication", reply: {(success,errormes) in
+                DispatchQueue.main.async {
+                    
+                    if success {
+                        self.login(self)
+                    }
+                    
+                    if let err = error {
+                        
+                        switch err._code {
+                            
+                        case LAError.Code.systemCancel.rawValue:
+                            self.notifyUser("Session cancelled",
+                                            err: err.localizedDescription)
+                            
+                        case LAError.Code.userCancel.rawValue:
+                            self.notifyUser("Please try again",
+                                            err: err.localizedDescription)
+                            
+                        case LAError.Code.userFallback.rawValue:
+                            self.notifyUser("Authentication",
+                                            err: "Password option selected")
+                            // Custom code to obtain password here
+                            
+                        default:
+                            self.notifyUser("Authentication failed",
+                                            err: err.localizedDescription)
+                        }
+                        
+                    } else {
+                        self.notifyUser("Authentication Successful",
+                                        err: "You now have full access")
+                    }
+                }
+                
+            }) } else {
+            // Device cannot use biometric authentication
+            if let err = error {
+                switch err.code {
+                    
+                case LAError.Code.biometryNotEnrolled.rawValue:
+                    notifyUser("User is not enrolled",
+                               err: err.localizedDescription)
+                    
+                case LAError.Code.passcodeNotSet.rawValue:
+                    notifyUser("A passcode has not been set",
+                               err: err.localizedDescription)
+                    
+                    
+                case LAError.Code.biometryNotAvailable.rawValue:
+                    notifyUser("Biometric authentication not available",
+                               err: err.localizedDescription)
+                default:
+                    notifyUser("Unknown error",
+                               err: err.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func notifyUser(_ msg: String, err: String?) {
+        let alert = UIAlertController(title: msg,
+                                      message: err,
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true,
+                     completion: nil)
+    }
 }
 
