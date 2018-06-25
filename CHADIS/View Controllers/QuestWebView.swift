@@ -57,9 +57,8 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate 
         NSLog("request: \(request)")
         return true
     }
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        <#code#>
-    }
+   
+    
     
     
     override func didReceiveMemoryWarning() {
