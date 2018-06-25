@@ -10,16 +10,26 @@ import Foundation
 import UIKit
 import WebKit
 
-class QuestWebView: UIViewController {
+class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate {
+   
     
     
     @IBOutlet weak var questView: WKWebView!
     var status: Int!
     var pqid: Int!
     var sessionid: String!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let configuration = WKWebViewConfiguration()
+        let controller = WKUserContentController()
+        controller.add(self, name: "JSListener")
+        configuration.userContentController = controller
+        let webview = WKWebView(frame: self.view.frame, configuration: configuration)
+        self.view = webview
+        
         var url: URL
         switch status {
             case 1:
@@ -35,8 +45,20 @@ class QuestWebView: UIViewController {
             
         }
         print(url)
-        questView.load(URLRequest(url: url))
+        webview.load(URLRequest(url: url))
+        //questView.load(URLRequest(url: url))
         
+    }
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print(message.body)
+    }
+    
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        NSLog("request: \(request)")
+        return true
+    }
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        <#code#>
     }
     
     
