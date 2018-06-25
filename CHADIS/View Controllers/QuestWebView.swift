@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate {
+class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate, WKUIDelegate {
    
     
     
@@ -28,7 +28,7 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate 
         controller.add(self, name: "JSListener")
         configuration.userContentController = controller
         let webview = WKWebView(frame: self.view.frame, configuration: configuration)
-        self.view = webview
+        self.view.addSubview(webview)
         
         var url: URL
         switch status {
@@ -45,8 +45,8 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate 
             
         }
         print(url)
-        webview.load(URLRequest(url: url))
-        //questView.load(URLRequest(url: url))
+        //webview.load(URLRequest(url: url))
+        questView.load(URLRequest(url: url))
         
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -54,6 +54,7 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate 
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        questView.evaluateJavaScript("confirmQuit(thisform,quitmessage)", completionHandler: nil)
         NSLog("request: \(request)")
         return true
     }
