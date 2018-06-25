@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate, WKUIDelegate {
+class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate{
    
     
     
@@ -22,7 +22,8 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        questView.uiDelegate = self
+        questView.navigationDelegate = self
         var url: URL
         switch status {
             case 0:
@@ -52,7 +53,18 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate,
         NSLog("request: \(request)")
         return true
     }
-   
+    
+    
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        let alertController = UIAlertController(title: frame.request.url?.host, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            completionHandler(false)
+        }))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            completionHandler(true)
+        }))
+        present(alertController, animated: true, completion: nil)
+    }
     
     
     
