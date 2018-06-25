@@ -19,26 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Uoz-dp-Xu9">
-                                <rect key="frame" x="28" y="189.5" width="319" height="30"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Base URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOa-JV-kmG">
-                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ywn-On-GTv">
-                                        <rect key="frame" x="88.5" y="0.0" width="230.5" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="urlChanged:" destination="rp2-Qe-yai" eventType="editingDidEnd" id="6h6-zI-Uvv"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Nvh-FO-bds">
                                 <rect key="frame" x="102" y="318" width="171" height="31"/>
                                 <subviews>
@@ -56,15 +36,37 @@
                                     </switch>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Uoz-dp-Xu9">
+                                <rect key="frame" x="8" y="195" width="359" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Base URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOa-JV-kmG">
+                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ywn-On-GTv">
+                                        <rect key="frame" x="88.5" y="0.0" width="270.5" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="urlChanged:" destination="rp2-Qe-yai" eventType="editingDidEnd" id="6h6-zI-Uvv"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="oqR-E0-qxA" firstAttribute="trailing" secondItem="Nvh-FO-bds" secondAttribute="trailing" constant="102" id="3AA-wU-JDA"/>
+                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="top" secondItem="oqR-E0-qxA" secondAttribute="top" constant="131" id="9FC-WX-PjC"/>
                             <constraint firstItem="Nvh-FO-bds" firstAttribute="top" secondItem="oqR-E0-qxA" secondAttribute="top" constant="254" id="9ko-Gq-dbx"/>
-                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="centerX" secondItem="oqR-E0-qxA" secondAttribute="centerX" id="IC9-fE-8Hh"/>
-                            <constraint firstItem="oqR-E0-qxA" firstAttribute="trailing" secondItem="Uoz-dp-Xu9" secondAttribute="trailing" constant="28" id="Tt2-So-Vw2"/>
                             <constraint firstItem="Nvh-FO-bds" firstAttribute="leading" secondItem="oqR-E0-qxA" secondAttribute="leading" constant="102" id="Ykl-6g-Ime"/>
-                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="leading" secondItem="oqR-E0-qxA" secondAttribute="leading" constant="28" id="o1l-Hv-PdC"/>
+                            <constraint firstItem="oqR-E0-qxA" firstAttribute="trailing" secondItem="Uoz-dp-Xu9" secondAttribute="trailing" constant="8" id="avC-o4-lQs"/>
+                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="centerX" secondItem="oqR-E0-qxA" secondAttribute="centerX" id="mkt-xB-Wdw"/>
+                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="leading" secondItem="oqR-E0-qxA" secondAttribute="leading" constant="8" id="pHF-4X-ViQ"/>
+                            <constraint firstItem="Uoz-dp-Xu9" firstAttribute="centerX" secondItem="oqR-E0-qxA" secondAttribute="centerX" id="yRy-oB-XXK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oqR-E0-qxA"/>
                     </view>
@@ -424,7 +426,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="optionLabel" destination="4JO-mf-Fgq" id="9bZ-FX-Ycd"/>
-                                    <segue destination="zjy-5a-IKG" kind="show" identifier="showQuest" id="CxD-DK-Foq"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -433,6 +434,9 @@
                             <outlet property="delegate" destination="iwD-R7-uKH" id="AbZ-kM-66F"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <segue destination="zjy-5a-IKG" kind="show" identifier="showQuest" id="FNE-o7-ffT"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2To-84-hrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

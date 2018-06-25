@@ -22,6 +22,7 @@ class optionsController: UICollectionViewController {
     var review =  NSLocalizedString("review", comment: "review option")
     var restart = NSLocalizedString("restart", comment: "restart option")
     var sub = NSLocalizedString("submit", comment: "submit option")
+    var selectedItem: String?
    
     override func viewDidLoad() {
         
@@ -64,13 +65,33 @@ class optionsController: UICollectionViewController {
     }
     
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedItem = options[indexPath.item]
+        performSegue(withIdentifier: "showQuest", sender: self)
+    }
+    
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showQuest" {
             let dest = segue.destination as! QuestWebView
             dest.pqid = self.pqid
-            dest.status = self.status
+            dest.status = decodeOption(option: selectedItem!)
             dest.sessionid = self.sessionid
+        }
+    }
+    
+    func decodeOption(option: String) -> Int {
+        switch option {
+        case begin:
+            return 0
+        case cont:
+            return 1
+        case review,sub:
+            return 2
+        case restart:
+            return 3
+        default:
+            return 0
         }
     }
 }
