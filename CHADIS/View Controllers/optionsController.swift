@@ -11,7 +11,6 @@ import UIKit
 
 class optionsController: UICollectionViewController {
 
-    
     var status: Int!
     var pqid: Int!
     var numCells: Int!
@@ -23,6 +22,7 @@ class optionsController: UICollectionViewController {
     var restart = NSLocalizedString("restart", comment: "restart option")
     var sub = NSLocalizedString("submit", comment: "submit option")
     var selectedItem: String?
+    var patient: Patient!
    
     override func viewDidLoad() {
         
@@ -73,10 +73,12 @@ class optionsController: UICollectionViewController {
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showQuest" {
+            print(self.sessionid)
             let dest = segue.destination as! QuestWebView
             dest.pqid = self.pqid
             dest.status = decodeOption(option: selectedItem!)
-            dest.sessionid = self.sessionid
+            dest.sessionid = self.sessionid!
+            dest.patient = self.patient
         }
     }
     

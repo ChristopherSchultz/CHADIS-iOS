@@ -463,6 +463,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="cNr-YG-tmy"/>
                     </view>
+                    <navigationItem key="navigationItem" id="hMb-Np-PbX">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="eOr-cZ-arS"/>
+                        <barButtonItem key="rightBarButtonItem" title="Pop" id="JXC-eh-np1">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="popButton:" destination="zjy-5a-IKG" id="wQG-w4-zao"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="questView" destination="XTR-U9-mKx" id="baQ-NB-lb1"/>
                     </connections>

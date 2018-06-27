@@ -30,7 +30,7 @@ It does this by retrieving the information from the server. */
 class patientViewController: UITableViewController {
     
     
-    var sessionID = String()
+    var sessionID: String!
     var session = URLSession()
     var masterPatientList: PatientList? //This is the patient list that will ultimately be displayed
     let sem = DispatchSemaphore.init(value: 0)

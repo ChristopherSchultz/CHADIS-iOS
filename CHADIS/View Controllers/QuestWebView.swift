@@ -13,12 +13,16 @@ import WebKit
 class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate{
    
     
-    
     @IBOutlet weak var questView: WKWebView!
     var status: Int!
     var pqid: Int!
     var sessionid: String!
+    var patient: Patient!
    
+    @IBAction func popButton(_ sender: Any) {
+        let views = self.navigationController?.viewControllers as! [UIViewController]
+        self.navigationController?.popToViewController(views[views.count - 3], animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +30,14 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate,
         questView.navigationDelegate = self
         var url: URL
         switch status {
-            case 0:
-                url = URL(string: baseURLString! + "respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+        case 0:
+            url = URL(string: baseURLString! + "respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         case 1:
             url = URL(string: baseURLString! + "respondent/questionnaire/resume.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         case 2:
             url = URL(string: baseURLString! + "respondent/questionnaire/review.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         case 3:
-            url = URL(string:baseURLString! + "/respondent/questionnaire/restart.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
+            url = URL(string:baseURLString! + "respondent/questionnaire/restart.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
         default:
             url = URL(string: baseURLString! + "respondent/questionnaire/start.do;jsessionid=\((sessionid)!)?id=\((pqid)!)")!
             print("not a default status")
@@ -64,6 +68,26 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate,
             completionHandler(true)
         }))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        print("BASE:")
+        print(questView.url!)
+        
+        let checknext = URL(string: baseURLString! + "respondent/questionnaire/check-next.do;jsessionid=\((sessionid)!)?id=\((patient.id))")
+        let view = URL(string: baseURLString! + "respondent/questionnaires/view.do;jsessionid=\((sessionid)!)?id=\(patient.id)")
+        let url = questView.url!
+        if url == checknext || url == view {
+            decisionHandler(.cancel)
+            let views = self.navigationController!.viewControllers 
+            self.navigationController?.popToViewController(views[views.count - 3], animated: true)
+        }else{
+            decisionHandler(.allow)
+            print("CHECK NEXT:")
+            print(checknext!)
+            print("VIEW:")
+            print(view!)
+        }
     }
     
     

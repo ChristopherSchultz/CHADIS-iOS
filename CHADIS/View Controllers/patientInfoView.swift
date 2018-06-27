@@ -64,7 +64,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 do {
                     //let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questJson.self, from: data)
-                    print(decodeQuest)
+                    //print(decodeQuest)
                     self.questList = decodeQuest.questionnaires
                     sem.signal()
                 } catch {
@@ -97,7 +97,6 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 do {
                     //let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questJson.self, from: data)
-                    print(decodeQuest)
                     self.questList = decodeQuest.questionnaires
                     sem.signal()
                 } catch {
@@ -152,6 +151,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 print("error with Status")
                 
             }
+            dest.patient = self.patient
             dest.sessionid = self.sessionid
             dest.pqid = quest.id
         }
