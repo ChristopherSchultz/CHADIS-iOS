@@ -201,6 +201,7 @@ extension ViewController {
                     
                     if success {
                         self.login(self)
+                        self.notifyUser("Authentication Successful", err: "You have been succesfully logged in")
                     }
                     
                     if let err = error {
@@ -225,9 +226,6 @@ extension ViewController {
                                             err: err.localizedDescription)
                         }
                         
-                    } else {
-                        self.notifyUser("Authentication Successful",
-                                        err: "You now have full access")
                     }
                 }
                 

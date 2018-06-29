@@ -28,6 +28,7 @@ struct questJson: Decodable {
 class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
+
     @IBOutlet weak var patientName: UILabel!
     @IBOutlet weak var DOB: UILabel!
     var patient: Patient?
@@ -37,6 +38,10 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     var sessionid: String!
     var searchController = UISearchController(searchResultsController: nil)
     var filteredQuest = [quest]()
+    var newQuest = [quest]()
+    var progressQuest = [quest]()
+    var readyQuest = [quest]()
+    var submitQuest = [quest]()
     
     
     
@@ -66,6 +71,8 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                     let decodeQuest = try JSONDecoder().decode(questJson.self, from: data)
                     //print(decodeQuest)
                     self.questList = decodeQuest.questionnaires
+                    self.sortQuest(quests: self.questList)
+                   
                     sem.signal()
                 } catch {
                     print(error)
@@ -110,27 +117,101 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         questTable.reloadData()
         
     }
+    
+    //TABLE VIEW FUNCTIONS
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            return filteredQuest.count
-        }else {
-        return questList.count
+        
+        
+        switch section{
+        case 0:
+            return newQuest.count
+        case 1:
+            return progressQuest.count
+        case 2:
+            return readyQuest.count
+        case 3:
+            return submitQuest.count
+        default:
+            return newQuest.count
         }
+    
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "questCell", for: indexPath) as! questCell
         let quest: quest!
-        if isFiltering() {
-        quest = filteredQuest[indexPath.row]
-        }else {
-        quest = questList[indexPath.row]
+        
+    
+        
+        switch indexPath.section {
+        case 0:
+            quest = newQuest[indexPath.row]
+        case 1:
+            quest = progressQuest[indexPath.row]
+        case 2:
+            quest = readyQuest[indexPath.row]
+        case 3:
+            quest = submitQuest[indexPath.row]
+        default:
+            quest = newQuest[indexPath.row]
         }
+        
+        
+        
         cell.questName.text = quest.name
         cell.status.text = String(quest.status_id)
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        switch section {
+        case 0:
+            return newQuest.count
+        case 1:
+            return progressQuest.count
+        case 2:
+            return readyQuest.count
+        case 3:
+            return submitQuest.count
+        default:
+            return 0
+            
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+
+        return 4
+        
+        
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: "questHeaderCell") as! QuestHeaderCell
+    
+        headerCell.backgroundColor = UIColor.darkGray
+        switch section {
+        case 0:
+            headerCell.questHeader.text = "New"
+        case 1:
+            headerCell.questHeader.text = "In Progress"
+        case 2:
+            headerCell.questHeader.text = "Ready to Submit"
+        case 3:
+            headerCell.questHeader.text = "Submitted"
+        default:
+            headerCell.questHeader.text = "Unexpected"
+        }
+
+        return headerCell
+    
+    }
+    
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showOptions" {
@@ -156,6 +237,8 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
             dest.pqid = quest.id
         }
     }
+    
+    //SEARCH BAR FUNCTIONS AND HELPERS
   
     
     func searchBarIsEmpty() -> Bool {
@@ -169,11 +252,52 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
             return fullname.lowercased().contains(searchText.lowercased())
         })
         
+        if searchText == "" {
+            sortQuest(quests: self.questList)
+        }else{
+        sortQuest(quests: filteredQuest)
+        }
         questTable.reloadData()
     }
+    
+    
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
+    
+    
+    func sortQuest(quests: [quest]) {
+        
+        clearQuests()
+        for quest in quests {
+            switch quest.status_id {
+            case 1:
+                newQuest.append(quest)
+            case 2:
+                progressQuest.append(quest)
+            case 3:
+                readyQuest.append(quest)
+            case 4:
+                submitQuest.append(quest)
+            default:
+                newQuest.append(quest)
+            }
+        }
+        
+    }
+    
+    func clearQuests(){
+        newQuest.removeAll()
+        progressQuest.removeAll()
+        readyQuest.removeAll()
+        submitQuest.removeAll()
+    }
+    
+    
+   
+    
+  
+    
     
 }
 

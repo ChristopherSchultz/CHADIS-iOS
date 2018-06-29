@@ -158,7 +158,7 @@ class patientViewController: UITableViewController {
             dest.loggedIn = true
             dest.username = self.username
             dest.password = self.pass
-            dest.urlString = baseURLString! + "staff/home.do;jsessionid=\(self.sessionID)?)"
+            dest.urlString = baseURLString! + "staff/home.do;jsessionid=\((self.sessionID)!)?)"
             
         }
         

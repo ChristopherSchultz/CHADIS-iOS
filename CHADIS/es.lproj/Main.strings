@@ -1,18 +1,5 @@
 
-/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[0] = "English"; ObjectID = "2mK-mW-TDG"; */
-"2mK-mW-TDG.segmentTitles[0]" = "Inglés";
 
-/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[1] = "Spanish"; ObjectID = "2mK-mW-TDG"; */
-"2mK-mW-TDG.segmentTitles[1]" = "Español";
-
-/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[2] = "French"; ObjectID = "2mK-mW-TDG"; */
-"2mK-mW-TDG.segmentTitles[2]" = "Francés";
-
-/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[3] = "Chinese"; ObjectID = "2mK-mW-TDG"; */
-"2mK-mW-TDG.segmentTitles[3]" = "Chino";
-
-/* Class = "UISegmentedControl"; 2mK-mW-TDG.segmentTitles[4] = "Auto"; ObjectID = "2mK-mW-TDG"; */
-"2mK-mW-TDG.segmentTitles[4]" = "Auto";
 
 /* Class = "UILabel"; text = "Option"; ObjectID = "4JO-mf-Fgq"; */
 "4JO-mf-Fgq.text" = "Opción";

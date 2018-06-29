@@ -14,6 +14,8 @@
 		821358BC20D96B4800223314 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 821358BA20D96B4800223314 /* Localizable.strings */; };
 		821358C120D9A26000223314 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821358C020D9A26000223314 /* LocalAuthentication.framework */; };
 		821358C320E139F000223314 /* WKWebViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358C220E139F000223314 /* WKWebViewWrapper.swift */; };
+		821358C520E3FE8200223314 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358C420E3FE8200223314 /* RegisterViewController.swift */; };
+		821358C720E531FA00223314 /* QuestHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821358C620E531FA00223314 /* QuestHeaderCell.swift */; };
 		827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670120C585A0002E4F24 /* AppDelegate.swift */; };
 		827B670420C585A1002E4F24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B670320C585A1002E4F24 /* ViewController.swift */; };
 		827B670720C585A1002E4F24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827B670520C585A1002E4F24 /* Main.storyboard */; };
@@ -38,6 +40,8 @@
 		821358BE20D96B4E00223314 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		821358C020D9A26000223314 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		821358C220E139F000223314 /* WKWebViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewWrapper.swift; sourceTree = "<group>"; };
+		821358C420E3FE8200223314 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		821358C620E531FA00223314 /* QuestHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestHeaderCell.swift; sourceTree = "<group>"; };
 		827B66FE20C585A0002E4F24 /* CHADIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHADIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B670120C585A0002E4F24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		827B670320C585A1002E4F24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				827B670320C585A1002E4F24 /* ViewController.swift */,
+				821358C420E3FE8200223314 /* RegisterViewController.swift */,
 				821358B420D80B9000223314 /* SettingsViewController.swift */,
 				827B671320C5D0D5002E4F24 /* webViewController.swift */,
 				827B671520C6DB79002E4F24 /* patientViewController.swift */,
@@ -122,6 +127,7 @@
 		827B672320CEF41A002E4F24 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				821358C620E531FA00223314 /* QuestHeaderCell.swift */,
 				827B671920C9B87B002E4F24 /* PatientCell.swift */,
 				821358B020D0221E00223314 /* optionCell.swift */,
 				827B671F20CED0D8002E4F24 /* questCell.swift */,
@@ -207,11 +213,13 @@
 				821358B520D80B9000223314 /* SettingsViewController.swift in Sources */,
 				827B671C20CB303E002E4F24 /* patientInfoView.swift in Sources */,
 				827B670420C585A1002E4F24 /* ViewController.swift in Sources */,
+				821358C720E531FA00223314 /* QuestHeaderCell.swift in Sources */,
 				821358C320E139F000223314 /* WKWebViewWrapper.swift in Sources */,
 				827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */,
 				827B672020CED0D8002E4F24 /* questCell.swift in Sources */,
 				821358AF20D021A800223314 /* optionsController.swift in Sources */,
 				827B671A20C9B87B002E4F24 /* PatientCell.swift in Sources */,
+				821358C520E3FE8200223314 /* RegisterViewController.swift in Sources */,
 				827B671620C6DB79002E4F24 /* patientViewController.swift in Sources */,
 				827B671420C5D0D5002E4F24 /* webViewController.swift in Sources */,
 			);
