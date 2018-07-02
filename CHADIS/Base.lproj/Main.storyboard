@@ -592,6 +592,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="1hI-dr-aKq" secondAttribute="trailing" constant="8" id="z1b-jP-Mhi"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <connections>
                                             <outlet property="questName" destination="bcn-os-hvv" id="QC2-8I-jgt"/>
                                             <outlet property="status" destination="6e2-x6-R1C" id="Wkz-Gr-dfu"/>
@@ -619,13 +620,22 @@
                                     <constraint firstAttribute="width" constant="300" id="9Lm-SM-UkV"/>
                                 </constraints>
                             </stackView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="patient" translatesAutoresizingMaskIntoConstraints="NO" id="nib-2b-F8k">
+                                <rect key="frame" x="324" y="85" width="35" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nib-2b-F8k" secondAttribute="height" multiplier="5:7" id="frh-LY-1LG"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Idw-9M-idk" firstAttribute="top" secondItem="Diq-vH-sHV" secondAttribute="bottom" constant="20" id="2y5-XK-lUR"/>
+                            <constraint firstItem="nib-2b-F8k" firstAttribute="centerY" secondItem="Diq-vH-sHV" secondAttribute="centerY" id="46K-Qu-epu"/>
                             <constraint firstItem="Idw-9M-idk" firstAttribute="top" secondItem="Diq-vH-sHV" secondAttribute="bottom" constant="20" id="H0H-DI-wQ2"/>
+                            <constraint firstItem="nib-2b-F8k" firstAttribute="leading" secondItem="Diq-vH-sHV" secondAttribute="trailing" constant="8" id="Hb7-by-Gsy"/>
                             <constraint firstItem="Diq-vH-sHV" firstAttribute="top" secondItem="d18-KX-iGG" secondAttribute="top" constant="16" id="QAg-5s-TbK"/>
                             <constraint firstItem="d18-KX-iGG" firstAttribute="trailing" secondItem="Diq-vH-sHV" secondAttribute="trailing" constant="59" id="aa0-yz-pV3"/>
+                            <constraint firstItem="d18-KX-iGG" firstAttribute="trailing" secondItem="nib-2b-F8k" secondAttribute="trailing" constant="16" id="fXE-hf-7U7"/>
                             <constraint firstAttribute="trailing" secondItem="Idw-9M-idk" secondAttribute="trailing" id="lPf-hf-2Oa"/>
                             <constraint firstItem="Diq-vH-sHV" firstAttribute="leading" secondItem="d18-KX-iGG" secondAttribute="leading" constant="16" id="o21-ik-PmF"/>
                             <constraint firstItem="Idw-9M-idk" firstAttribute="leading" secondItem="6tr-2c-7VM" secondAttribute="leading" id="sPs-Tf-hKm"/>
@@ -641,7 +651,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sl7-YN-IfD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1852" y="869"/>
+            <point key="canvasLocation" x="1852" y="868.51574212893559"/>
         </scene>
         <!--Options Controller-->
         <scene sceneID="rbH-gp-0bx">
@@ -793,6 +803,7 @@
     </scenes>
     <resources>
         <image name="ChadisLogo" width="250" height="250"/>
+        <image name="patient" width="232" height="326"/>
         <image name="webIcon" width="58" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
