@@ -215,14 +215,33 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showOptions" {
-            guard let indexPath = questTable.indexPathForSelectedRow else{
-                print("error in selecting quest")
+            
+            var quest: quest?
+            guard let indexPath = questTable.indexPathForSelectedRow else {
+                print("error in row selection")
                 return
             }
-            let quest = questList[indexPath.row]
+            
+            guard let section = questTable.indexPathForSelectedRow?.section else{
+                print("error in section selection")
+                return
+            }
+            
+            switch section {
+            case 0:
+                quest = newQuest[indexPath.row]
+            case 1:
+                quest = progressQuest[indexPath.row]
+            case 2:
+                quest = readyQuest[indexPath.row]
+            case 3:
+                quest = submitQuest[indexPath.row]
+            default:
+                quest = newQuest[indexPath.row]
+            }
             let dest = segue.destination as! optionsController
-            dest.status = quest.status_id
-            switch quest.status_id {
+            dest.status = quest?.status_id
+            switch quest?.status_id {
             case 1,4,7,8:
                 dest.numCells = 1
             case 2,3:
@@ -234,7 +253,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             dest.patient = self.patient
             dest.sessionid = self.sessionid
-            dest.pqid = quest.id
+            dest.pqid = quest?.id
         }
     }
     

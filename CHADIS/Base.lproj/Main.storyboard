@@ -553,7 +553,6 @@
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="questHeader" destination="z5q-jx-ILm" id="tWE-0g-CRo"/>
-                                            <segue destination="iwD-R7-uKH" kind="show" identifier="showOptions" id="SY0-nj-rgi"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="questCell" rowHeight="75" id="PMC-EW-5xY" customClass="questCell" customModule="CHADIS" customModuleProvider="target">
@@ -596,6 +595,7 @@
                                         <connections>
                                             <outlet property="questName" destination="bcn-os-hvv" id="QC2-8I-jgt"/>
                                             <outlet property="status" destination="6e2-x6-R1C" id="Wkz-Gr-dfu"/>
+                                            <segue destination="iwD-R7-uKH" kind="show" identifier="showOptions" id="yb2-FI-itz"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
