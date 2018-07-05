@@ -43,11 +43,13 @@ class patientViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //these lines of code are used to define the search bar
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("Patient Search", comment: "Searchbar placeholder")
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        
         
         //The following is simply setup that I do to ensure the look of the app is consistent, I also
         // modify the navigation bar so that the functionality suits my purposes
@@ -55,12 +57,16 @@ class patientViewController: UITableViewController {
         self.title = "Patients"
         self.navigationItem.hidesBackButton = true
         
+        
+        //this is the custom back and web button located at the top of the page
         let newBackButton = UIBarButtonItem(title: NSLocalizedString("Logout", comment: "logout button"), style: UIBarButtonItemStyle.plain,
                                             target: self, action: #selector(patientViewController.back(sender:)))
         let newWebButton = UIBarButtonItem(title: "Web CHADIS", style: UIBarButtonItemStyle.plain, target: self, action: #selector(patientViewController.web(sender:)))
         newWebButton.image = UIImage(named: "webIcon.png")
         self.navigationItem.rightBarButtonItem = newWebButton
         self.navigationItem.leftBarButtonItem = newBackButton
+        
+        
         
         //Here is the URL Request and all of the parameters.
         //Note: I do not have to set cookies since the session was passed in from the previous view controller
@@ -91,6 +97,8 @@ class patientViewController: UITableViewController {
         
     
     }
+    
+    
     
     //This function occurs whenever the back/logout button is pressed and invalidates and cancels the
     // URL Session allowing the user to safely logout and log back in
@@ -135,6 +143,7 @@ class patientViewController: UITableViewController {
     //These segues pass on desired information into the following view controllers.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        //this passes in the patient info into the subequent screen
         if segue.identifier == "patientInfo" {
             let dest = segue.destination as! patientInfoView
             guard let indexPath = tableView.indexPathForSelectedRow else {
@@ -149,6 +158,8 @@ class patientViewController: UITableViewController {
             
         }
         
+        //assuming that the web button is pressed, the appropritate url is passed into the web
+        //view controller
         if segue.identifier == "loggedIn" {
             
             print(self.username)
@@ -192,6 +203,8 @@ class patientViewController: UITableViewController {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    //this is the function that narrows down search results based on a combination of the patient's
+    //first and last name lowercased
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredPatients = masterPatientList!.patients.filter({( patient : Patient) -> Bool in
             let fullname = patient.first + patient.last
@@ -200,12 +213,15 @@ class patientViewController: UITableViewController {
         
         tableView.reloadData()
     }
+    
+    //helper function used to determine whether the search bar is being used
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
     
 }
 
+//extension that allows the searchbar to be implemented
 extension patientViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)

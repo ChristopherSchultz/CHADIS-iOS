@@ -9,10 +9,12 @@
 import Foundation
 import UIKit
 
+//these structs are used to decode the JSON information and parse the data
 struct quest: Decodable {
     var id: Int
     var status_id: Int
     var questionnaire_id: Int
+    var dynamic: Bool
     var name: String
     var name_lang: String
     var assigned: String
@@ -25,6 +27,9 @@ struct questJson: Decodable {
     var questionnaires: [quest]
 }
 
+/* This class/view controller is used to display patient information as well as the questionnaires
+ assigned to the patient which will then allow the user to select and view the various
+ questionnaires */
 class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
@@ -38,6 +43,8 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     var sessionid: String!
     var searchController = UISearchController(searchResultsController: nil)
     var filteredQuest = [quest]()
+    
+    //these four arrays are used to divide the questionnaires into sections
     var newQuest = [quest]()
     var progressQuest = [quest]()
     var readyQuest = [quest]()
@@ -50,15 +57,20 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         questTable.delegate = self
         questTable.dataSource = self
        
+        
+        //same lines of code used to instantiate the search bar
        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = NSLocalizedString("search Quests", comment: "searchbar placeholder quests")
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        
+        //data about the patient used to display information
         patientName.text = "\((patient?.last)!), \((patient?.first)!)"
         DOB.text = "DOB: \((patient?.dob)!)"
+        
+        
+        //Classic URL request in order to retrieve the questionnaire information
         let sem = DispatchSemaphore(value: 0)
         let id = "?id=\((patient?.id)!)"
         let url = URL(string: baseURLString! + "respondent/api/patient/questionnaires.do" + id)
@@ -69,7 +81,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 do {
                     //let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questJson.self, from: data)
-                    //print(decodeQuest)
+
                     self.questList = decodeQuest.questionnaires
                     self.sortQuest(quests: self.questList)
                    
@@ -88,12 +100,12 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
       
     }
     
+    
+    //this function serves only to refresh the page assuming that the user has filled out
+    //a questionnaire thereby necessitating a refresh of the questinnaires
+    //NOTE: Can probably compartamentalize all of this code into a separate function (TO DO)
     override func viewWillAppear(_ animated: Bool) {
     
-        
-        print("I GET RUN")
-        patientName.text = "\((patient?.last)!), \((patient?.first)!)"
-        DOB.text = "DOB: \((patient?.dob)!)"
         let sem = DispatchSemaphore(value: 0)
         let id = "?id=\((patient?.id)!)"
         let url = URL(string: baseURLString! + "respondent/api/patient/questionnaires.do" + id)
@@ -112,15 +124,13 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             }.resume()
         sem.wait()
-        questTable.rowHeight = UITableViewAutomaticDimension
-        questTable.estimatedRowHeight = 200
         questTable.reloadData()
         
     }
     
     //TABLE VIEW FUNCTIONS
     
-    
+    //returns the amount of rows per section, simply accessses the appropriate array
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         
@@ -139,12 +149,12 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     }
     
+    //retrieves the appropriate data for each cell, also very simple
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "questCell", for: indexPath) as! questCell
         let quest: quest!
         
     
-        
         switch indexPath.section {
         case 0:
             quest = newQuest[indexPath.row]
@@ -166,28 +176,13 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        switch section {
-        case 0:
-            return newQuest.count
-        case 1:
-            return progressQuest.count
-        case 2:
-            return readyQuest.count
-        case 3:
-            return submitQuest.count
-        default:
-            return 0
-            
-        }
-    }
     
+    //returns the number of sections in the table total, currently returns 4 regardless of how many are
+    //in each section
     func numberOfSections(in tableView: UITableView) -> Int {
 
         return 4
-        
-        
+
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "questHeaderCell") as! QuestHeaderCell
@@ -251,6 +246,8 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 print("error with Status")
                 
             }
+            dest.quest = quest
+            dest.isDynamic = quest?.dynamic
             dest.patient = self.patient
             dest.sessionid = self.sessionid
             dest.pqid = quest?.id
@@ -310,6 +307,11 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         progressQuest.removeAll()
         readyQuest.removeAll()
         submitQuest.removeAll()
+    }
+    
+    
+    func testQuest(){
+        
     }
     
     

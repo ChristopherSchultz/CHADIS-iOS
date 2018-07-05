@@ -55,7 +55,7 @@ class QRViewController: ViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if metadataObjects != nil && metadataObjects.count != nil {
+        if metadataObjects != nil && metadataObjects.count != 0 {
             if let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject {
                 
                 let foundObject = video.transformedMetadataObject(for: object)

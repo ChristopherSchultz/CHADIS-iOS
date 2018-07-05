@@ -23,6 +23,8 @@ class optionsController: UICollectionViewController {
     var sub = NSLocalizedString("submit", comment: "submit option")
     var selectedItem: String?
     var patient: Patient!
+    var isDynamic: Bool!
+    var quest: quest!
    
     override func viewDidLoad() {
         
@@ -67,19 +69,31 @@ class optionsController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedItem = options[indexPath.item]
+        if isDynamic {
         performSegue(withIdentifier: "showQuest", sender: self)
+        }else{
+        performSegue(withIdentifier: "showStatic", sender: self)
+        }
     }
     
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showQuest" {
-            print(self.sessionid)
+           
             let dest = segue.destination as! QuestWebView
             dest.pqid = self.pqid
             dest.status = decodeOption(option: selectedItem!)
             dest.sessionid = self.sessionid!
             dest.patient = self.patient
-        }
+            dest.questid = self.quest.id
+        }else if segue.identifier == "showStatic" {
+            let dest = segue.destination as! staticQuestView
+            dest.pqid = self.pqid
+            dest.status = decodeOption(option: selectedItem!)
+            dest.sessionid = self.sessionid!
+            dest.patient = self.patient
+            dest.questid = self.quest.id
+    }
     }
     
     func decodeOption(option: String) -> Int {

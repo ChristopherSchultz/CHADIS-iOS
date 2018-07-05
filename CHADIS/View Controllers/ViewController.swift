@@ -188,22 +188,28 @@ class ViewController: UIViewController {
 
 }
 
+
+//extension that allows the home page to ask for authentification
 extension ViewController {
     
+    //function that asks user for touch ID
     func authenticationWithTouchID() {
         let context = LAContext()
         
         var error: NSError?
         
+        //determines whether the device even has biometric scanners
         if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error){
             context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Access requires Authentication", reply: {(success,errormes) in
                 DispatchQueue.main.async {
                     
+                    //On success this function section will execute
                     if success {
                         self.login(self)
                         self.notifyUser("Authentication Successful", err: "You have been succesfully logged in")
                     }
                     
+                    //these are the error messages in case biometric authentication is unsuccessful
                     if let err = error {
                         
                         switch err._code {
@@ -230,6 +236,7 @@ extension ViewController {
                 }
                 
             }) } else {
+            
             // Device cannot use biometric authentication
             if let err = error {
                 switch err.code {
@@ -254,6 +261,8 @@ extension ViewController {
         }
     }
     
+    //custom function in order to handle successes, simply displays an alert that indicates
+    //that authentication was successful
     func notifyUser(_ msg: String, err: String?) {
         let alert = UIAlertController(title: msg,
                                       message: err,
