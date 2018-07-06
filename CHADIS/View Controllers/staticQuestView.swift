@@ -65,9 +65,15 @@ class staticQuestView: UIViewController {
     var sessionid: String!
     var patient: Patient!
     var questid: Int!
+    var masterQuestion: questionJSON?
+    var questionArray:[questions]?
     
+    
+    @IBOutlet weak var introductionLabel: UILabel!
     @IBAction func sendToQuestion(_ sender: Any) {
         let controller = questionView()
+        controller.questionArray = self.questionArray
+        controller.index = 0
         self.navigationController?.pushViewController(controller, animated: true)
     }
     override func viewDidLoad() {
@@ -88,7 +94,7 @@ class staticQuestView: UIViewController {
             print("not a default status")
             
         }
-        
+        let sem = DispatchSemaphore(value: 0)
         let session = URLSession.shared
         var request = URLRequest(url: url)
         print(url)
@@ -97,11 +103,11 @@ class staticQuestView: UIViewController {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
-                  
+                    self.masterQuestion = decodeQuest
                    // print(json)
+                    sem.signal()
                     
                     
-                    print("number of questions: \(decodeQuest.questions.count)")
                     
                     
                     
@@ -110,7 +116,25 @@ class staticQuestView: UIViewController {
                 }
             }
             }.resume()
+        sem.wait()
+        introductionLabel.adjustsFontSizeToFitWidth = true
+        introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
+        questionArray = masterQuestion?.questions
         
         
+        
+    }
+    
+   
+    func cleanIntro(intro: String) -> String {
+        var result = intro
+        result = intro.replacingOccurrences(of: "<html>", with: "")
+        result = result.replacingOccurrences(of: "<p>", with: "")
+        result = result.replacingOccurrences(of: "</html>", with: "")
+        result = result.replacingOccurrences(of: "</p>", with: "")
+        result = result.replacingOccurrences(of: "\n", with: "")
+        result = result.trimmingCharacters(in: .whitespaces)
+        print(result)
+        return result
     }
 }
