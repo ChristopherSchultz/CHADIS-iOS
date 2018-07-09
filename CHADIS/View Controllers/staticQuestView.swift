@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 
+
 struct questTypes: Decodable {
     var displaytype: String
     var id: Int //
@@ -37,7 +38,7 @@ struct questionnaire: Decodable {
     var description: String
    // var dynamic: Int //
     var id: Int //
-    var introduction: String
+    var introduction: String?
     var locale: String
     var name: String
     var questionnaire_id: Int //
@@ -104,7 +105,7 @@ class staticQuestView: UIViewController {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
                     self.masterQuestion = decodeQuest
-                   // print(json)
+                    print(json)
                     sem.signal()
                     
                     
@@ -117,10 +118,18 @@ class staticQuestView: UIViewController {
             }
             }.resume()
         sem.wait()
-        introductionLabel.adjustsFontSizeToFitWidth = true
+   
+        if masterQuestion?.questionnaire.introduction != nil {
         introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
-        questionArray = masterQuestion?.questions
+        }else{
+            introductionLabel.text = "Welcome to the \((masterQuestion?.questionnaire.name)!)"
+        }
+        introductionLabel.adjustsFontSizeToFitWidth = true
+        introductionLabel.baselineAdjustment = .none
         
+        introductionLabel.sizeToFit()
+        introductionLabel.textAlignment = .left
+        questionArray = masterQuestion?.questions
         
         
     }
@@ -128,12 +137,24 @@ class staticQuestView: UIViewController {
    
     func cleanIntro(intro: String) -> String {
         var result = intro
+        // regexp : <\/?\w*> to use
+        var regexp = try! NSRegularExpression(pattern: "<[^.]+>")
+        let regexp2 = try! NSRegularExpression(pattern: "<[\\D]+>")
+        let range = NSMakeRange(0, result.count)
+        let modString = regexp.stringByReplacingMatches(in: result, options: [], range: range, withTemplate: "")
+
+        
         result = intro.replacingOccurrences(of: "<html>", with: "")
         result = result.replacingOccurrences(of: "<p>", with: "")
         result = result.replacingOccurrences(of: "</html>", with: "")
         result = result.replacingOccurrences(of: "</p>", with: "")
         result = result.replacingOccurrences(of: "\n", with: "")
+        result = result.replacingOccurrences(of: "<ul>", with: "")
+        result = result.replacingOccurrences(of: "<li>", with: "")
+        result = result.replacingOccurrences(of: "</li>", with: "")
+        result = result.replacingOccurrences(of: "</ul>", with: "")
         result = result.trimmingCharacters(in: .whitespaces)
+      
         print(result)
         return result
     }
