@@ -97,7 +97,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         for option in options {
             var opt = questionOptions()
             if option.freeResponseDataType  == nil {
-            let button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 100, height: 50))
+            let button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
            // button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.blue
             button.setTitle("\(option.text)", for: .normal)
@@ -107,7 +107,23 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             self.view.addSubview(button)
             indexOpt = indexOpt +  1
             }else{
+                let button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                button.backgroundColor = UIColor.blue
+                button.setTitle("\(option.text)", for: .normal)
+                button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
+                button.titleLabel?.numberOfLines = 0
+                button.titleLabel?.adjustsFontSizeToFitWidth = true
+                //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
+                let text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
+                text.borderStyle = .roundedRect
+                text.alpha = 0.7
                 
+                opt.button = button
+                opt.text = text
+                mainOptions.append(opt)
+                self.view.addSubview(button)
+                self.view.addSubview(text)
+                indexOpt = indexOpt + 1
             }
             
         }
