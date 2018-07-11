@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     
     var loginSuccess = false //determines whether the login was successful
     var sessionID = "" //current session ID used to communicate with the server when using web view
-    var session : URLSession! //URLSession used to maintain same cookies when making subsequent request
+    var session = URLSession.shared
+    //var session : URLSession! //URLSession used to maintain same cookies when making subsequent request
     var lang = NSLocale.preferredLanguages[0] //current user's language preferences
     @IBOutlet weak var username: UITextField! //these are the fields and switch that the user interacts with
     @IBOutlet weak var password: UITextField!

@@ -59,6 +59,8 @@ struct questionJSON: Decodable{
 }
 
 
+
+
 class staticQuestView: UIViewController {
     
     var status: Int!
@@ -75,6 +77,8 @@ class staticQuestView: UIViewController {
         let controller = questionView()
         controller.questionArray = self.questionArray
         controller.index = 0
+        controller.pqid = self.pqid
+        controller.masterQuestion = self.masterQuestion
         self.navigationController?.pushViewController(controller, animated: true)
     }
     override func viewDidLoad() {
@@ -102,6 +106,9 @@ class staticQuestView: UIViewController {
         session.dataTask(with: request) { (data,response,error) in
             if let data = data {
                 do {
+                    
+                    let stringversion = String.init(data: data, encoding: .utf8)
+                    print(stringversion)
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
                     self.masterQuestion = decodeQuest
@@ -138,10 +145,11 @@ class staticQuestView: UIViewController {
     func cleanIntro(intro: String) -> String {
         var result = intro
         // regexp : <\/?\w*> to use
+       /*
         var regexp = try! NSRegularExpression(pattern: "<[^.]+>")
         let regexp2 = try! NSRegularExpression(pattern: "<[\\D]+>")
         let range = NSMakeRange(0, result.count)
-        let modString = regexp.stringByReplacingMatches(in: result, options: [], range: range, withTemplate: "")
+        let modString = regexp.stringByReplacingMatches(in: result, options: [], range: range, withTemplate: "") */
 
         
         result = intro.replacingOccurrences(of: "<html>", with: "")
@@ -155,7 +163,7 @@ class staticQuestView: UIViewController {
         result = result.replacingOccurrences(of: "</ul>", with: "")
         result = result.trimmingCharacters(in: .whitespaces)
       
-        print(result)
+       // print(result)
         return result
     }
 }
