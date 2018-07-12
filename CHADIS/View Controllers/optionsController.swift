@@ -69,7 +69,8 @@ class optionsController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedItem = options[indexPath.item]
-        if isDynamic {
+        print(decodeOption(option: selectedItem!))
+        if isDynamic || decodeOption(option: selectedItem!) == 2 || decodeOption(option: selectedItem!) == 3  {
         performSegue(withIdentifier: "showQuest", sender: self)
         }else{
         performSegue(withIdentifier: "showStatic", sender: self)
@@ -86,6 +87,7 @@ class optionsController: UICollectionViewController {
             dest.sessionid = self.sessionid!
             dest.patient = self.patient
             dest.questid = self.quest.id
+            
         }else if segue.identifier == "showStatic" {
             let dest = segue.destination as! staticQuestView
             dest.pqid = self.pqid

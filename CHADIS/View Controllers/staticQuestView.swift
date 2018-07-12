@@ -85,6 +85,8 @@ class staticQuestView: UIViewController {
         super.viewDidLoad()
         var url: URL
       
+        //something is weird when the status of the questionnaire is 0 because the get questions link
+        //and call are working fine when the status is 1
         switch status {
         case 0:
             url = URL(string: baseURLString! + "respondent/api/patient/questionnaire/begin.do?id=\((pqid)!)")!
@@ -101,7 +103,7 @@ class staticQuestView: UIViewController {
         }
         let sem = DispatchSemaphore(value: 0)
         let session = URLSession.shared
-        var request = URLRequest(url: url)
+        let request = URLRequest(url: url)
         print(url)
         session.dataTask(with: request) { (data,response,error) in
             if let data = data {

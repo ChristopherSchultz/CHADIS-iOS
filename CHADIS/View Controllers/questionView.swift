@@ -29,10 +29,16 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     var questionText: String?
     var label: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.baselineAdjustment = .none
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     var mainOptions = [questionOptions]()
     var pqid: Int!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,16 +47,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
        
         self.view.addSubview(label)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.baselineAdjustment = .none
-        label.adjustsFontSizeToFitWidth = true
         label.text = questionArray[index].text
         label.sizeToFit()
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
+        
+       
         generateOptions()
         displayAnswer()
         
@@ -72,7 +75,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         }
         
         if index > 0{
-            let backButton = UIBarButtonItem(title: "Back2", style: .plain, target: self, action: #selector(questionView.back(sender:)))
+            let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(questionView.back(sender:)))
             self.navigationItem.leftBarButtonItem = backButton
         }
         
@@ -88,41 +91,85 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         var indexOpt = 0
         var options = [option]()
         var questType: questTypes!
+        var scrollView: UIScrollView?
+        var needScroll = false
         for questT in masterQuestion.questionTypes{
             if questT.id == questionType {
                 questType = questT
                 options = questT.options
             }
         }
+        
+        if options.count > 4 {
+            scrollView = UIScrollView()
+            scrollView?.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 110))
+            self.view.addSubview(scrollView!)
+            scrollView?.translatesAutoresizingMaskIntoConstraints = false
+            scrollView?.backgroundColor = UIColor.cyan
+            scrollView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
+            scrollView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100).isActive = true
+            scrollView?.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+            needScroll = true
+         
+        }
+        
         for option in options {
             var opt = questionOptions()
-            if option.freeResponseDataType  == nil {
-            let button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+            if option.freeResponseDataType  == nil && options.count <= 4 {
+                let button: UIButton!
+                if needScroll{
+                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
+                }else{
+                button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                }
            // button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.blue
+            button.layer.cornerRadius = 10
             button.setTitle("\(option.text)", for: .normal)
             button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
             opt.button = button
             mainOptions.append(opt)
+            if needScroll {
+                scrollView?.addSubview(button)
+                }else{
             self.view.addSubview(button)
+                }
             indexOpt = indexOpt +  1
             }else{
-                let button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                
+                
+                let button: UIButton!
+                if needScroll{
+                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
+                }else{
+                    button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                }
                 button.backgroundColor = UIColor.blue
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
+                button.layer.cornerRadius = 10
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
-                let text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
+                let text: UITextField!
+                if needScroll{
+                      text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 100, width: 300, height: 50))
+                }else{
+                    text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
+                }
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
                 
                 opt.button = button
                 opt.text = text
                 mainOptions.append(opt)
+                if needScroll {
+                    scrollView?.addSubview(button)
+                    scrollView?.addSubview(text)
+                }else{
                 self.view.addSubview(button)
                 self.view.addSubview(text)
+                }
                 indexOpt = indexOpt + 1
             }
             
@@ -133,10 +180,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     func submitQuestion() {
-        let url = URL(string: baseURLString! + "respondent/api/patient/questionnaire/answer-questions.do?id=\(pqid!)")
+        let url = URL(string: baseURLString! + "respondent/api/patient/questionnaire/answer-questions.do?id=\((pqid)!)")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
        // let params = ["response_\(currQuest)": getAnswer()]
+        updateParams()
         let params = currParams
         print(params)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -153,10 +201,6 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                     print(json)
                 
                     
-                    
-                    
-                    
-                    
                 } catch {
                     print(error)
                 }
@@ -166,7 +210,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     }
     
     func getAnswer() -> Int{
-        var ansIndex = -1
+        var ansIndex = -24
         if getQuestionType().multiplicity == "single"{
             for i in 0..<mainOptions.count{
                 if mainOptions[i].button?.backgroundColor == UIColor.green{
@@ -174,12 +218,15 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
             }
         }
-        if ansIndex == -1 {
+        if ansIndex == -24 {
             return ansIndex
         }else{
         return getQuestionType().options[ansIndex].value
         }
     }
+    
+    
+    
     
     func displayAnswer(){
         
@@ -212,7 +259,6 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     @objc func isSelected(sender: UIButton) {
        
-        
         let questType = getQuestionType()
         if questType.multiplicity == "single"{
             
@@ -227,6 +273,14 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             
         }
     }
+    
+    
+    func updateParams() {
+        if getAnswer() != -24{
+            currParams["response_\(questionArray[index].id)"] = getAnswer()
+        }
+        
+    }
 
     
     @objc func submit(sender: UIBarButtonItem){
@@ -237,7 +291,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     @objc func back(sender: UIBarButtonItem){
        
         if index > 0 {
-            if getAnswer() == -1{
+            if getAnswer() == -24{
                 self.navigationController?.popViewController(animated: true)
             }else{
             currParams["response_\(questionArray[index].id)"] = getAnswer()
@@ -245,10 +299,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             }
         }
     }
+
     
     @objc func printParams(sender: UIButton){
         print(currParams)
     }
+    
     
     @objc func next(sender:UIBarButtonItem) {
         if index < questionArray.count - 1{
@@ -258,7 +314,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             nextQuestion.masterQuestion = self.masterQuestion
             nextQuestion.pqid = self.pqid
             
-            if getAnswer() != -1{
+            if getAnswer() != -24{
                  currParams["response_\(questionArray[index].id)"] = getAnswer()
             }
            

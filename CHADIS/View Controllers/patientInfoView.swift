@@ -251,6 +251,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
             dest.patient = self.patient
             dest.sessionid = self.sessionid
             dest.pqid = quest?.id
+            
         }
     }
     
@@ -310,7 +311,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     
-    func testQuest(){
+    func testQuest(pqid:Int){
         
     }
     
