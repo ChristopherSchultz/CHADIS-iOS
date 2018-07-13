@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-
+//The following structs are used to decode the JSON data for the questionnaires
 
 struct questTypes: Decodable {
     var displaytype: String
@@ -60,7 +60,8 @@ struct questionJSON: Decodable{
 
 
 
-
+/* This class is used to show the introduction to the questionnaire provided that it exists and it preps
+ the questions for the questionnaire */
 class staticQuestView: UIViewController {
     
     var status: Int!
@@ -73,6 +74,8 @@ class staticQuestView: UIViewController {
     
     
     @IBOutlet weak var introductionLabel: UILabel!
+    
+    //This action sends the user to the first question while passing in relevant information
     @IBAction func sendToQuestion(_ sender: Any) {
         let controller = questionView()
         controller.questionArray = self.questionArray
@@ -87,6 +90,8 @@ class staticQuestView: UIViewController {
       
         //something is weird when the status of the questionnaire is 0 because the get questions link
         //and call are working fine when the status is 1
+        
+        //Switch statement that determines what URL call to make
         switch status {
         case 0:
             url = URL(string: baseURLString! + "respondent/api/patient/questionnaire/begin.do?id=\((pqid)!)")!
@@ -109,8 +114,8 @@ class staticQuestView: UIViewController {
             if let data = data {
                 do {
                     
-                    let stringversion = String.init(data: data, encoding: .utf8)
-                    print(stringversion)
+                  //  let stringversion = String.init(data: data, encoding: .utf8)
+                  //  print(stringversion)
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
                     self.masterQuestion = decodeQuest
@@ -128,6 +133,7 @@ class staticQuestView: UIViewController {
             }.resume()
         sem.wait()
    
+        //This block of code provides a default introduction if one does not exist
         if masterQuestion?.questionnaire.introduction != nil {
         introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
         }else{
@@ -144,6 +150,8 @@ class staticQuestView: UIViewController {
     }
     
    
+    //This function cleans up all of the HTML tags from a string
+    //TO DO: utilize regular expressions to make this code more useful
     func cleanIntro(intro: String) -> String {
         var result = intro
         // regexp : <\/?\w*> to use

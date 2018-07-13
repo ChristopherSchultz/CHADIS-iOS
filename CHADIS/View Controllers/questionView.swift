@@ -27,6 +27,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     var questionArray: [questions]!
     var masterQuestion: questionJSON!
     var questionText: String?
+    
+    //this label will be the main question label
     var label: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,10 +40,20 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     }()
     var mainOptions = [questionOptions]()
     var pqid: Int!
+    var progressBar: UIProgressView!
+ 
     
     
     override func viewDidLoad() {
+        
+        progressBar = UIProgressView(frame: CGRect(x: 0, y: 75, width: self.view.frame.width, height: 20))
+        progressBar.center.x = self.view.center.x
+        progressBar.setProgress(Float(index)/Float(questionArray.count), animated: true)
+        progressBar.progressTintColor = UIColor.green
+        self.view.addSubview(progressBar)
+        
         super.viewDidLoad()
+        //determines all of the upper level information that will want to be displayed
         self.navigationItem.title = "Question \(index + 1)"
         self.view.backgroundColor = UIColor.white
        
@@ -63,7 +75,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         display.backgroundColor = UIColor.purple
         self.view.addSubview(display)
         
-        
+        //if the user has reached the end of all of the questions then provide a submit button instead
         if index != questionArray.count - 1{
         let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(questionView.next(sender:)))
         self.navigationItem.rightBarButtonItem = nextButton
@@ -74,6 +86,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             
         }
         
+        //custom back button to pass in pertinent information
         if index > 0{
             let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(questionView.back(sender:)))
             self.navigationItem.leftBarButtonItem = backButton
@@ -85,7 +98,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     
-    
+    //function used to display all of the options on the screen given the question type
     func generateOptions() {
         let questionType = questionArray[index].type
         var indexOpt = 0
@@ -99,7 +112,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 options = questT.options
             }
         }
-        
+        //if the number of options excede 4 then provide a scroll view so the user can view all of the options
         if options.count > 4 {
             scrollView = UIScrollView()
             scrollView?.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 110))
@@ -113,6 +126,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
          
         }
         
+        //for every option provided that it is either a button or a button with a textfield, generate it and
+        //display said option
         for option in options {
             var opt = questionOptions()
             if option.freeResponseDataType  == nil && options.count <= 4 {
@@ -135,8 +150,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             self.view.addSubview(button)
                 }
             indexOpt = indexOpt +  1
-            }else{
-                
+            }else{ //code for a button and a textfield
                 
                 let button: UIButton!
                 if needScroll{
@@ -178,7 +192,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
-    
+    //this function makes an API call and posts all of the parameters.
+    //TO DO: Make this work
     func submitQuestion() {
         let url = URL(string: baseURLString! + "respondent/api/patient/questionnaire/answer-questions.do?id=\((pqid)!)")
         var request = URLRequest(url: url!)
@@ -209,6 +224,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                          
     }
     
+    //this function will use the background color of each button to determine whether it has be selected or not
+    //It will then determine what value the answer will be
     func getAnswer() -> Int{
         var ansIndex = -24
         if getQuestionType().multiplicity == "single"{
@@ -227,7 +244,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     
-    
+    //This function is used to display what answers the user has previously chosen assuming that there exists
+    //a previously chosen answer
     func displayAnswer(){
         
         if getQuestionType().multiplicity == "single"{
@@ -245,6 +263,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    //This function will retrieve the question type of the current question in order to be able to decode
+    //the answer
     func getQuestionType() -> questTypes{
         let currentType = questionArray[index].type
         var questType = masterQuestion.questionTypes[0]
@@ -257,6 +277,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    //Will simply change the background color of a selected button
     @objc func isSelected(sender: UIButton) {
        
         let questType = getQuestionType()
@@ -274,7 +295,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    
+    //Will update the current answers of the user's questionnaire
     func updateParams() {
         if getAnswer() != -24{
             currParams["response_\(questionArray[index].id)"] = getAnswer()
@@ -282,6 +303,10 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
 
+    
+    //The following are completion handlers for buttons throughout the page. The name of each button should be
+    // self explanatory
+    
     
     @objc func submit(sender: UIBarButtonItem){
         submitQuestion()
