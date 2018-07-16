@@ -57,13 +57,32 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         self.navigationItem.title = "Question \(index + 1)"
         self.view.backgroundColor = UIColor.white
        
-        self.view.addSubview(label)
+       
         
         label.text = questionArray[index].text
-        label.sizeToFit()
-        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        if (label.text?.count)! > 200 {
+            print("greater than")
+            var scroll = UIScrollView()
+            self.view.addSubview(scroll)
+            scroll.contentSize = CGSize(width: self.view.frame.width, height: CGFloat((label.text?.count)! / 50) * 70)
+            scroll.translatesAutoresizingMaskIntoConstraints = false
+            scroll.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            scroll.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -345).isActive = true
+            scroll.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+            scroll.backgroundColor = UIColor.green
+            scroll.addSubview(label)
+            label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
+        }else{
+             self.view.addSubview(label)
+            
+          
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+           
+        }
+        
         label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
+        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        label.sizeToFit()
         
        
         generateOptions()
@@ -135,7 +154,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 if needScroll{
                 button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
                 }else{
-                button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                button = UIButton(frame: CGRect(x: 25, y: 325 + indexOpt * 100, width: 150, height: 40))
                 }
            // button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.blue
@@ -292,7 +311,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             sender.backgroundColor = UIColor.green
         }
             
-        }
+        }else if questType.multiplicity == "multiple"{
+            if sender.backgroundColor == UIColor.green{
+            sender.backgroundColor = UIColor.blue
+            }else{
+                sender.backgroundColor = UIColor.green
+            }
+    }
     }
     
     //Will update the current answers of the user's questionnaire
