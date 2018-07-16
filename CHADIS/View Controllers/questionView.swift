@@ -88,11 +88,16 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         generateOptions()
         displayAnswer()
         
-        var display = UIButton(frame: CGRect(x: 200, y: 200, width: 200, height: 50))
+        var display = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
         display.addTarget(self, action: #selector(questionView.printParams(sender:)), for: UIControlEvents.touchUpInside)
         display.setTitle("Display", for: .normal)
         display.backgroundColor = UIColor.purple
+        display.layer.cornerRadius = 5
         self.view.addSubview(display)
+        display.translatesAutoresizingMaskIntoConstraints = false
+        display.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        display.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        display.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
         
         //if the user has reached the end of all of the questions then provide a submit button instead
         if index != questionArray.count - 1{
@@ -134,12 +139,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         //if the number of options excede 4 then provide a scroll view so the user can view all of the options
         if options.count > 4 {
             scrollView = UIScrollView()
-            scrollView?.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 110))
+            scrollView?.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 105))
             self.view.addSubview(scrollView!)
             scrollView?.translatesAutoresizingMaskIntoConstraints = false
             scrollView?.backgroundColor = UIColor.cyan
             scrollView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
-            scrollView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100).isActive = true
+            scrollView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             scrollView?.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
             needScroll = true
          
@@ -173,6 +178,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 
                 let button: UIButton!
                 if needScroll{
+                    scrollView?.contentSize.width = (scrollView?.contentSize.width)! + 20
                     button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
                 }else{
                     button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
@@ -189,6 +195,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                       text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 100, width: 300, height: 50))
                 }else{
                     text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
+               
                 }
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
@@ -199,9 +206,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 if needScroll {
                     scrollView?.addSubview(button)
                     scrollView?.addSubview(text)
+                  
                 }else{
                 self.view.addSubview(button)
                 self.view.addSubview(text)
+                    
                 }
                 indexOpt = indexOpt + 1
             }
