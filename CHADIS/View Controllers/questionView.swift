@@ -61,7 +61,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         label.text = questionArray[index].text
         if (label.text?.count)! > 200 {
-            print("greater than")
+           // print("greater than")
             var scroll = UIScrollView()
             self.view.addSubview(scroll)
             scroll.contentSize = CGSize(width: self.view.frame.width, height: CGFloat((label.text?.count)! / 50) * 70)
@@ -174,6 +174,28 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             self.view.addSubview(button)
                 }
             indexOpt = indexOpt +  1
+            }else if options.count > 4{
+            
+                let button: UIButton!
+                if needScroll{
+                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
+                }else{
+                    button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                }
+                button.backgroundColor = UIColor.blue
+                button.setTitle("\(option.text)", for: .normal)
+                button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
+                button.layer.cornerRadius = 10
+                button.titleLabel?.numberOfLines = 0
+                button.titleLabel?.adjustsFontSizeToFitWidth = true
+                opt.button = button
+                mainOptions.append(opt)
+                scrollView?.addSubview(button)
+                indexOpt = indexOpt + 1
+            
+            
+            
+            
             }else{ //code for a button and a textfield
                 
                 let button: UIButton!
@@ -305,6 +327,18 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    //returns the selected option assuming that one has been selected
+    func getSelectedOption() -> option {
+        if getQuestionType().multiplicity == "single"{
+            for i in 0..<mainOptions.count {
+                if mainOptions[i].button?.backgroundColor == UIColor.green{
+                    return getQuestionType().options[i]
+                }
+            }
+        }
+        return getQuestionType().options[0]
+    }
+    
     //Will simply change the background color of a selected button
     @objc func isSelected(sender: UIButton) {
        
@@ -331,11 +365,31 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     //Will update the current answers of the user's questionnaire
     func updateParams() {
+        
         if getAnswer() != -24{
             currParams["response_\(questionArray[index].id)"] = getAnswer()
         }
         
     }
+    
+    func checkFreeText() -> Bool{
+        for i in 0..<mainOptions.count{
+            if mainOptions[i].button?.backgroundColor == UIColor.green && getSelectedOption().freeResponseRegexp != nil{
+               print(getSelectedOption().freeResponseRegexp!)
+                if mainOptions[i].text?.text?.range(of: getSelectedOption().freeResponseRegexp!, options: String.CompareOptions.regularExpression, range: nil, locale: nil) != nil {
+                    return true
+                }else{
+                    return false
+                }
+                
+                
+            }
+        }
+        return false
+    }
+    
+    
+    
 
     
     //The following are completion handlers for buttons throughout the page. The name of each button should be
@@ -366,6 +420,14 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func next(sender:UIBarButtonItem) {
+        if getSelectedOption().freeResponseDataType != nil {
+            if checkFreeText(){
+                print("we're good")
+            }else{
+                print("nah")
+            }
+        }
+        
         if index < questionArray.count - 1{
             let nextQuestion = questionView()
             nextQuestion.index = self.index + 1
