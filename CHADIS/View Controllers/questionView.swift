@@ -41,6 +41,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     var mainOptions = [questionOptions]()
     var pqid: Int!
     var progressBar: UIProgressView!
+    var answerScroll: UIScrollView!
+    var questScroll: UIScrollView!
  
     
     
@@ -72,6 +74,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scroll.backgroundColor = UIColor.green
             scroll.addSubview(label)
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
+            questScroll = scroll
         }else{
              self.view.addSubview(label)
             
@@ -128,26 +131,35 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         var indexOpt = 0
         var options = [option]()
         var questType: questTypes!
-        var scrollView: UIScrollView?
-        var needScroll = false
+        var scrollView: UIScrollView = UIScrollView()
         for questT in masterQuestion.questionTypes{
             if questT.id == questionType {
                 questType = questT
                 options = questT.options
             }
         }
+        answerScroll = scrollView
+        
+        scrollView.contentSize = CGSize(width: self.view.frame.width, height: 300)
+        self.view.addSubview(scrollView)
+        
+        
         //if the number of options excede 4 then provide a scroll view so the user can view all of the options
         if options.count > 4 {
-            scrollView = UIScrollView()
-            scrollView?.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 105))
-            self.view.addSubview(scrollView!)
-            scrollView?.translatesAutoresizingMaskIntoConstraints = false
-            scrollView?.backgroundColor = UIColor.cyan
-            scrollView?.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
-            scrollView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            scrollView?.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
-            needScroll = true
-         
+           
+            scrollView.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 105))
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.backgroundColor = UIColor.cyan
+            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
+            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+        }else{
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.backgroundColor = UIColor.cyan
+            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
+            scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        
         }
         
         //for every option provided that it is either a button or a button with a textfield, generate it and
@@ -156,11 +168,10 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             var opt = questionOptions()
             if option.freeResponseDataType  == nil && options.count <= 4 {
                 let button: UIButton!
-                if needScroll{
-                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
-                }else{
-                button = UIButton(frame: CGRect(x: 25, y: 325 + indexOpt * 100, width: 150, height: 40))
-                }
+                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+
+               
+
            // button.translatesAutoresizingMaskIntoConstraints = false
             button.backgroundColor = UIColor.blue
             button.layer.cornerRadius = 10
@@ -168,20 +179,19 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
             opt.button = button
             mainOptions.append(opt)
-            if needScroll {
-                scrollView?.addSubview(button)
-                }else{
-            self.view.addSubview(button)
-                }
+           
+                
+            scrollView.addSubview(button)
+            view.addSubview(scrollView)
             indexOpt = indexOpt +  1
             }else if options.count > 4{
             
                 let button: UIButton!
-                if needScroll{
-                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
-                }else{
-                    button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
-                }
+              
+                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+              
+                    //button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                
                 button.backgroundColor = UIColor.blue
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
@@ -190,7 +200,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 opt.button = button
                 mainOptions.append(opt)
-                scrollView?.addSubview(button)
+                
+                scrollView.addSubview(button)
                 indexOpt = indexOpt + 1
             
             
@@ -199,12 +210,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             }else{ //code for a button and a textfield
                 
                 let button: UIButton!
-                if needScroll{
-                    scrollView?.contentSize.width = (scrollView?.contentSize.width)! + 20
+                scrollView.contentSize.width = (scrollView.contentSize.width) + 20
                     button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
-                }else{
-                    button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
-                }
+               
+                   // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                
                 button.backgroundColor = UIColor.blue
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
@@ -213,34 +223,29 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
                 let text: UITextField!
-                if needScroll{
+                
                       text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 100, width: 300, height: 50))
-                }else{
-                    text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
+                    //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
                
-                }
+                
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
                 
                 opt.button = button
                 opt.text = text
                 mainOptions.append(opt)
-                if needScroll {
-                    scrollView?.addSubview(button)
-                    scrollView?.addSubview(text)
+                scrollView.addSubview(button)
+                scrollView.addSubview(text)
                   
-                }else{
-                self.view.addSubview(button)
-                self.view.addSubview(text)
-                    
+             
                 }
                 indexOpt = indexOpt + 1
             }
             
         }
+
         
-        
-    }
+    
     
     //this function makes an API call and posts all of the parameters.
     //TO DO: Make this work
@@ -425,6 +430,26 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 print("we're good")
             }else{
                 print("nah")
+                let errorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+                if getSelectedOption().freeResponseErrorText != nil {
+                errorLabel.text = getSelectedOption().freeResponseErrorText
+                }else{
+                    errorLabel.text = "Please enter a valid response"
+                }
+                answerScroll.addSubview(errorLabel)
+                var optionText: UITextField!
+                for opt in mainOptions{
+                    if opt.button?.backgroundColor == UIColor.green{
+                        optionText = opt.text
+                    }
+                }
+                errorLabel.translatesAutoresizingMaskIntoConstraints = false
+                errorLabel.center = optionText.center
+                errorLabel.textColor = UIColor.red
+                
+                errorLabel.frame.origin.y = errorLabel.frame.origin.y + 50
+                
+                return
             }
         }
         
