@@ -43,6 +43,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     var progressBar: UIProgressView!
     var answerScroll: UIScrollView!
     var questScroll: UIScrollView!
+    var error: UILabel?
+    var toolBar: UIToolbar!
  
     
     
@@ -59,6 +61,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         self.navigationItem.title = "Question \(index + 1)"
         self.view.backgroundColor = UIColor.white
        
+        toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(questionView.doneButtonAction(sender:)))
+        toolBar.setItems([flexSpace,doneBtn], animated: false)
+        toolBar.sizeToFit()
+
        
         
         label.text = questionArray[index].text
@@ -91,6 +100,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         generateOptions()
         displayAnswer()
         
+        //This is a dummy button that currently displays the parameters up to the current point
+        //maybe this will be used as a save and exit button
         var display = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
         display.addTarget(self, action: #selector(questionView.printParams(sender:)), for: UIControlEvents.touchUpInside)
         display.setTitle("Display", for: .normal)
@@ -200,7 +211,6 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 opt.button = button
                 mainOptions.append(opt)
-                
                 scrollView.addSubview(button)
                 indexOpt = indexOpt + 1
             
@@ -211,7 +221,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 
                 let button: UIButton!
                 scrollView.contentSize.width = (scrollView.contentSize.width) + 20
-                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
+                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
                
                    // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
@@ -224,15 +234,16 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
                 let text: UITextField!
                 
-                      text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 100, width: 300, height: 50))
+                      text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
                     //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
-               
+                
                 
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
                 
                 opt.button = button
                 opt.text = text
+                text.inputAccessoryView = toolBar
                 mainOptions.append(opt)
                 scrollView.addSubview(button)
                 scrollView.addSubview(text)
@@ -401,6 +412,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     // self explanatory
     
     
+    @objc func doneButtonAction(sender: UIBarButtonItem){
+        self.view.endEditing(true)
+    }
+    
+    
     @objc func submit(sender: UIBarButtonItem){
         submitQuestion()
     }
@@ -428,6 +444,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         if getSelectedOption().freeResponseDataType != nil {
             if checkFreeText(){
                 print("we're good")
+                if error != nil {
+                    error?.removeFromSuperview()
+                }
             }else{
                 print("nah")
                 let errorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
@@ -436,19 +455,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }else{
                     errorLabel.text = "Please enter a valid response"
                 }
-                answerScroll.addSubview(errorLabel)
-                var optionText: UITextField!
-                for opt in mainOptions{
-                    if opt.button?.backgroundColor == UIColor.green{
-                        optionText = opt.text
-                    }
-                }
+                view.addSubview(errorLabel)
                 errorLabel.translatesAutoresizingMaskIntoConstraints = false
-                errorLabel.center = optionText.center
                 errorLabel.textColor = UIColor.red
-                
-                errorLabel.frame.origin.y = errorLabel.frame.origin.y + 50
-                
+                errorLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+               
+                errorLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 320).isActive = true
+                error = errorLabel
                 return
             }
         }
