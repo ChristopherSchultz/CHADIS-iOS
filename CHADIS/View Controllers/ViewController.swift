@@ -58,6 +58,7 @@ class ViewController: UIViewController {
         let pass = password.text!
         let sem = DispatchSemaphore(value: 0)
         let parameters = ["username": name, "password": pass]
+        
         //let loginURL = URL(string: "https://dev.chadis.com/cschultz-chadis/respondent/api/login.do")
         let loginURL = URL(string: baseURLString! + "respondent/api/login.do")
         var request = URLRequest(url: loginURL!)
@@ -128,6 +129,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginFailed.isHidden = true
+        if baseURLString == nil {
+            UserDefaults.standard.set("https://dev.chadis.com/cscults-chaids/", forKey: "baseURL")
+            baseURLString = UserDefaults.standard.string(forKey: "baseURL")
+        }
         self.navigationController?.navigationBar.tintColor = UIColor.white
         if UserDefaults.standard.bool(forKey: "savePass") {
             savePass.setOn(true, animated: false)

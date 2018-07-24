@@ -14,7 +14,7 @@ var currParams = [String:Int]()
 
 struct questionOptions {
     var button: UIButton?
-    var text: UITextField?
+    var text: UITextField? 
     var isSelected = false
 }
 
@@ -80,10 +80,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scroll.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
             scroll.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -345).isActive = true
             scroll.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
-            scroll.backgroundColor = UIColor.green
+            scroll.backgroundColor = UIColor.purple
             scroll.addSubview(label)
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
             questScroll = scroll
+            self.view.bringSubview(toFront: progressBar)
         }else{
              self.view.addSubview(label)
             
@@ -116,7 +117,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         //if the user has reached the end of all of the questions then provide a submit button instead
         if index != questionArray.count - 1{
         let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(questionView.next(sender:)))
+            nextButton.tintColor = UIColor.red
         self.navigationItem.rightBarButtonItem = nextButton
+        
         }else{
             let submitButton = UIBarButtonItem(title: "Submit", style: .done, target: self, action: #selector(questionView.submit(sender:)))
             self.navigationItem.rightBarButtonItem = submitButton
@@ -232,8 +235,14 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
-                let text: UITextField!
-                
+                var text: UITextField! {
+                    didSet{
+                        print("I'm working")
+                        if checkReady() {
+                            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
+                        }
+                    }
+                }
                       text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
                     //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
                 
@@ -243,6 +252,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 
                 opt.button = button
                 opt.text = text
+                opt.text?.addTarget(self, action: #selector(questionView.textfieldDidChange(sender:)), for: UIControlEvents.editingChanged)
                 text.inputAccessoryView = toolBar
                 mainOptions.append(opt)
                 scrollView.addSubview(button)
@@ -329,6 +339,26 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    @objc func textfieldDidChange(sender: UITextField) {
+        var useOpt: questionOptions?
+        for opt in mainOptions{
+            if opt.text == sender {
+                useOpt = opt
+            }
+        }
+        if getQuestionType().multiplicity == "single"{
+            for opt in mainOptions{
+                opt.button?.backgroundColor = UIColor.blue
+            }
+            useOpt?.button?.backgroundColor = UIColor.green
+        }
+        if checkFreeText() {
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
+        }else{
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
+        }
+    }
+    
     //This function will retrieve the question type of the current question in order to be able to decode
     //the answer
     func getQuestionType() -> questTypes{
@@ -357,7 +387,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     //Will simply change the background color of a selected button
     @objc func isSelected(sender: UIButton) {
-       
+        
         let questType = getQuestionType()
         if questType.multiplicity == "single"{
             
@@ -377,6 +407,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 sender.backgroundColor = UIColor.green
             }
     }
+        
+        if checkReady(){
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
+        }else{
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
+        }
     }
     
     //Will update the current answers of the user's questionnaire
@@ -404,8 +440,20 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         return false
     }
     
-    
-    
+    //function that checks to see if the user has successfully answered based on the requirements of the question
+    func checkReady() -> Bool{
+        let type = getQuestionType()
+        if type.multiplicity == "single" || type.multiplicity == "multiple"{
+            for opt in mainOptions {
+                if opt.button?.backgroundColor == UIColor.green && opt.text == nil {
+                    return true
+                }else if opt.button?.backgroundColor == UIColor.green && checkFreeText(){
+                    return true
+                }
+            }
+        }
+        return false
+    }
 
     
     //The following are completion handlers for buttons throughout the page. The name of each button should be
@@ -441,8 +489,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func next(sender:UIBarButtonItem) {
-        if getSelectedOption().freeResponseDataType != nil {
-            if checkFreeText(){
+
+            if checkReady(){
                 print("we're good")
                 if error != nil {
                     error?.removeFromSuperview()
@@ -464,7 +512,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 error = errorLabel
                 return
             }
-        }
+            
+        
         
         if index < questionArray.count - 1{
             let nextQuestion = questionView()
