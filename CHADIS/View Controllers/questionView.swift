@@ -351,6 +351,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 opt.button?.backgroundColor = UIColor.blue
             }
             useOpt?.button?.backgroundColor = UIColor.green
+        }else if getQuestionType().multiplicity == "multiple"{
+            useOpt?.button?.backgroundColor = UIColor.green
+        }
+        
+        if sender.text == "" {
+            useOpt?.button?.backgroundColor = UIColor.blue
         }
         if checkFreeText() {
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green

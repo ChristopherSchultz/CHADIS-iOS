@@ -826,9 +826,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XTR-U9-mKx">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTR-U9-mKx">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -837,6 +836,12 @@
                             </wkWebView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XTR-U9-mKx" firstAttribute="centerY" secondItem="cNr-YG-tmy" secondAttribute="centerY" id="Iwa-nf-KOe"/>
+                            <constraint firstItem="XTR-U9-mKx" firstAttribute="top" secondItem="cNr-YG-tmy" secondAttribute="top" id="SZX-sd-KqU"/>
+                            <constraint firstItem="XTR-U9-mKx" firstAttribute="width" secondItem="Mtj-E5-rSx" secondAttribute="width" id="Sau-FT-14F"/>
+                            <constraint firstItem="XTR-U9-mKx" firstAttribute="centerX" secondItem="cNr-YG-tmy" secondAttribute="centerX" id="hdx-oI-ytX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="cNr-YG-tmy"/>
                     </view>
                     <navigationItem key="navigationItem" id="hMb-Np-PbX">
@@ -864,9 +869,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yDf-n8-plc">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDf-n8-plc">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -876,6 +880,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.0" green="0.38039215686274508" blue="0.53725490196078429" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="yDf-n8-plc" firstAttribute="top" secondItem="fct-0I-7Hz" secondAttribute="top" id="6H5-pG-lrv"/>
+                            <constraint firstItem="yDf-n8-plc" firstAttribute="centerX" secondItem="fct-0I-7Hz" secondAttribute="centerX" id="Fii-iF-jkr"/>
+                            <constraint firstItem="yDf-n8-plc" firstAttribute="width" secondItem="XfA-8R-cVz" secondAttribute="width" id="TZb-Np-xSa"/>
+                            <constraint firstItem="yDf-n8-plc" firstAttribute="centerY" secondItem="fct-0I-7Hz" secondAttribute="centerY" id="usZ-6K-4oi"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="fct-0I-7Hz"/>
                     </view>
                     <connections>
