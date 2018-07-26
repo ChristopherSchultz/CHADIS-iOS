@@ -245,7 +245,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
                       text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
                     //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
-                
+                if getSelectedOption().freeResponseDataType == "date"{
+                    text.keyboardType == .
+                }
                 
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
@@ -412,8 +414,38 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             }else{
                 sender.backgroundColor = UIColor.green
             }
-    }
         
+        }else if questType.multiplicity == "hybrid-smc"{
+            var currOpt: questionOptions
+            var optIndex: Int = 0
+            for i in 0..<mainOptions.count{
+                if sender == mainOptions[i].button {
+                    print("I found it")
+                    currOpt = mainOptions[i]
+                    optIndex = i
+                }
+            }
+            if getQuestionType().options[optIndex].mutuallyExclusive != nil {
+                if sender.backgroundColor == UIColor.green{
+                    sender.backgroundColor = UIColor.blue
+                }else{
+                    sender.backgroundColor = UIColor.green
+                }
+            }else{
+                for i in 0..<mainOptions.count {
+                    if getQuestionType().options[i].mutuallyExclusive == nil{
+                        mainOptions[i].button?.backgroundColor = UIColor.blue
+                    }
+                }
+                if sender.backgroundColor == UIColor.green {
+                    sender.backgroundColor = UIColor.blue
+                }else{
+                    sender.backgroundColor = UIColor.green
+                }
+            }
+
+        }
+    
         if checkReady(){
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
         }else{
@@ -443,7 +475,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 
             }
         }
-        return false
+        return true
     }
     
     //function that checks to see if the user has successfully answered based on the requirements of the question
@@ -454,6 +486,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 if opt.button?.backgroundColor == UIColor.green && opt.text == nil {
                     return true
                 }else if opt.button?.backgroundColor == UIColor.green && checkFreeText(){
+                    return true
+                }
+            }
+        }else if type.multiplicity == "hybrid-smc"{
+            for opt in mainOptions{
+                if opt.button?.backgroundColor == UIColor.green {
                     return true
                 }
             }
@@ -497,12 +535,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     @objc func next(sender:UIBarButtonItem) {
 
             if checkReady(){
-                print("we're good")
+               // print("we're good")
                 if error != nil {
                     error?.removeFromSuperview()
                 }
             }else{
-                print("nah")
+                //print("nah")
                 let errorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
                 if getSelectedOption().freeResponseErrorText != nil {
                 errorLabel.text = getSelectedOption().freeResponseErrorText

@@ -22,11 +22,12 @@ struct questTypes: Decodable {
 
 struct option: Decodable {
     
-   // var freeResponse: Int?
+    //var freeResponse: Bool?
     var freeResponseDataType: String?
     var freeResponseErrorText: String?
     var freeResponseRegexp: String?
     var id: Int //
+    var mutuallyExclusive: Bool?
     var order: Int //
     var text: String
     var value: Int //
@@ -56,6 +57,8 @@ struct questionJSON: Decodable{
     var questionTypes: [questTypes]
     var questionnaire: questionnaire
     var questions: [questions]
+    
+
 }
 
 
@@ -100,12 +103,13 @@ class staticQuestView: UIViewController {
         case 2:
             url = URL(string: baseURLString! + "respondent/questionnaire/review.do?id=\((pqid)!)")!
         case 3:
-            url = URL(string:baseURLString! + "respondent/questionnaire/restart.do?id=\((pqid)!)")!
+            url = URL(string: baseURLString! + "respondent/questionnaire/restart.do?id=\((pqid)!)")!
         default:
             url = URL(string: "https://youtube.com")!
             print("not a default status")
             
         }
+        
         let sem = DispatchSemaphore(value: 0)
         let session = URLSession.shared
         let request = URLRequest(url: url)
@@ -114,8 +118,9 @@ class staticQuestView: UIViewController {
             if let data = data {
                 do {
                     
-                  //  let stringversion = String.init(data: data, encoding: .utf8)
-                  //  print(stringversion)
+                    
+                    let stringversion = String.init(data: data, encoding: .utf8)
+                    print( "STRING VERSION " + stringversion!)
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
                     self.masterQuestion = decodeQuest
@@ -123,10 +128,10 @@ class staticQuestView: UIViewController {
                     sem.signal()
                     
                     
-                    
-                    
-                    
                 } catch {
+                    let stringData = String.init(data: data, encoding: String.Encoding.utf8)
+                    print(stringData)
+
                     print(error)
                 }
             }
