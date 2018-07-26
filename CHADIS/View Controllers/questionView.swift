@@ -14,7 +14,8 @@ var currParams = [String:Int]()
 
 struct questionOptions {
     var button: UIButton?
-    var text: UITextField? 
+    var text: UITextField?
+    var date: UIDatePicker?
     var isSelected = false
 }
 
@@ -54,7 +55,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         progressBar.center.x = self.view.center.x
         progressBar.setProgress(Float(index)/Float(questionArray.count), animated: true)
         progressBar.progressTintColor = UIColor.green
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        
         self.view.addSubview(progressBar)
+        progressBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        progressBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.height)! + 20).isActive = true
+        progressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         super.viewDidLoad()
         //determines all of the upper level information that will want to be displayed
@@ -67,19 +73,19 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(questionView.doneButtonAction(sender:)))
         toolBar.setItems([flexSpace,doneBtn], animated: false)
         toolBar.sizeToFit()
-
-       
         
         label.text = questionArray[index].text
         if (label.text?.count)! > 200 {
            // print("greater than")
             var scroll = UIScrollView()
+            scroll.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/3)
             self.view.addSubview(scroll)
             scroll.contentSize = CGSize(width: self.view.frame.width, height: CGFloat((label.text?.count)! / 50) * 70)
             scroll.translatesAutoresizingMaskIntoConstraints = false
             scroll.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-            scroll.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -345).isActive = true
-            scroll.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+            scroll.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.35).isActive = true
+            scroll.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            scroll.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
             scroll.backgroundColor = UIColor.purple
             scroll.addSubview(label)
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
@@ -164,15 +170,18 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 105))
             scrollView.translatesAutoresizingMaskIntoConstraints = false
             scrollView.backgroundColor = UIColor.cyan
-            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
+            scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+
         }else{
             scrollView.translatesAutoresizingMaskIntoConstraints = false
             scrollView.backgroundColor = UIColor.cyan
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 300).isActive = true
+            scrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
             scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1, constant: 0).isActive = true
+     
         
         }
         
@@ -220,6 +229,32 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             
             
             
+            }else if getSelectedOption().freeResponseDataType == "date"{
+                
+                
+                let button: UIButton!
+                scrollView.contentSize.width = (scrollView.contentSize.width) + 20
+                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                
+                // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
+                
+                button.backgroundColor = UIColor.blue
+                button.setTitle("\(option.text)", for: .normal)
+                button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
+                button.layer.cornerRadius = 10
+                button.titleLabel?.numberOfLines = 0
+                button.titleLabel?.adjustsFontSizeToFitWidth = true
+                 opt.button = button
+                let datePicker = UIDatePicker(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
+                datePicker.datePickerMode = UIDatePickerMode.date
+                scrollView.contentSize.width = scrollView.contentSize.width + 100
+                opt.date = datePicker
+                mainOptions.append(opt)
+                scrollView.addSubview(datePicker)
+                scrollView.addSubview(button)
+         
+            
+            
             }else{ //code for a button and a textfield
                 
                 let button: UIButton!
@@ -235,7 +270,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
-                var text: UITextField! {
+                var text: UITextField!{
                     didSet{
                         print("I'm working")
                         if checkReady() {
@@ -245,10 +280,6 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
                       text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
                     //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
-                if getSelectedOption().freeResponseDataType == "date"{
-                    text.keyboardType == .
-                }
-                
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
                 
@@ -264,6 +295,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
                 indexOpt = indexOpt + 1
             }
+        self.view.bringSubview(toFront: questScroll)
             
         }
 
@@ -359,6 +391,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         if sender.text == "" {
             useOpt?.button?.backgroundColor = UIColor.blue
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
         }
         if checkFreeText() {
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
@@ -449,6 +482,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         if checkReady(){
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
         }else{
+            print("I'm here")
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
         }
     }
@@ -528,6 +562,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
 
     
     @objc func printParams(sender: UIButton){
+        answerScroll.updateConstraints()
+        questScroll.updateConstraints()
         print(currParams)
     }
     
