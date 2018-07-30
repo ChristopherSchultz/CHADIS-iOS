@@ -74,13 +74,22 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         toolBar.setItems([flexSpace,doneBtn], animated: false)
         toolBar.sizeToFit()
         
-        label.text = questionArray[index].text
-        if (label.text?.count)! > 200 {
+        
+        
+        //label.text = questionArray[index].text
+        label.attributedText = questionArray[index].text.htmlToAttributedString
+        
+        
+        
            // print("greater than")
             var scroll = UIScrollView()
             scroll.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/3)
             self.view.addSubview(scroll)
+        if (label.text?.count)! > 200{
             scroll.contentSize = CGSize(width: self.view.frame.width, height: CGFloat((label.text?.count)! / 50) * 70)
+            }else{
+                scroll.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height/3)
+            }
             scroll.translatesAutoresizingMaskIntoConstraints = false
             scroll.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
             scroll.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.35).isActive = true
@@ -91,13 +100,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
             questScroll = scroll
             self.view.bringSubview(toFront: progressBar)
-        }else{
-             self.view.addSubview(label)
-            
-          
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-           
-        }
+      
         
         label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -150,6 +153,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         let questionType = questionArray[index].type
         var indexOpt = 0
         var options = [option]()
+        
         var questType: questTypes!
         var scrollView: UIScrollView = UIScrollView()
         for questT in masterQuestion.questionTypes{
@@ -173,6 +177,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
             scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+            scrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
         }else{
             scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -245,7 +250,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                  opt.button = button
-                let datePicker = UIDatePicker(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
+                let datePicker = UIDatePicker(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 50))
                 datePicker.datePickerMode = UIDatePickerMode.date
                 scrollView.contentSize.width = scrollView.contentSize.width + 100
                 opt.date = datePicker
@@ -295,7 +300,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
                 indexOpt = indexOpt + 1
             }
-        self.view.bringSubview(toFront: questScroll)
+  
             
         }
 
@@ -583,12 +588,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }else{
                     errorLabel.text = "Please enter a valid response"
                 }
-                view.addSubview(errorLabel)
+                answerScroll.addSubview(errorLabel)
                 errorLabel.translatesAutoresizingMaskIntoConstraints = false
                 errorLabel.textColor = UIColor.red
-                errorLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+                errorLabel.centerXAnchor.constraint(equalTo: answerScroll.centerXAnchor, constant: 0).isActive = true
                
-                errorLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 320).isActive = true
+                errorLabel.topAnchor.constraint(equalTo: answerScroll.topAnchor, constant: 10).isActive = true
                 error = errorLabel
                 return
             }
@@ -614,4 +619,19 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     
     
+}
+
+
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return NSAttributedString() }
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return NSAttributedString()
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
+    }
 }
