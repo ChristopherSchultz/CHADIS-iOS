@@ -85,7 +85,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         print(label.numberOfVisibleLines)
         
            // print("greater than")
-            var scroll = UIScrollView()
+            let scroll = UIScrollView()
             scroll.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/3)
             self.view.addSubview(scroll)
         
@@ -108,6 +108,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
       
         
         label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
+        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         label.sizeToFit()
         
@@ -117,7 +119,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         //This is a dummy button that currently displays the parameters up to the current point
         //maybe this will be used as a save and exit button
-        var display = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
+        let display = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
         display.addTarget(self, action: #selector(questionView.printParams(sender:)), for: UIControlEvents.touchUpInside)
         display.setTitle("Display", for: .normal)
         display.backgroundColor = UIColor.purple
@@ -127,6 +129,21 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         display.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         display.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         display.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        
+        let exit = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
+        exit.addTarget(self, action: #selector(questionView.exit(sender:)), for: UIControlEvents.touchUpInside)
+        exit.setTitle("Exit", for: .normal)
+        exit.backgroundColor = UIColor.red
+        exit.layer.cornerRadius = 5
+        self.view.addSubview(exit)
+        exit.translatesAutoresizingMaskIntoConstraints = false
+        exit.bottomAnchor.constraint(equalTo: display.topAnchor, constant: -20).isActive = true
+        exit.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        exit.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        
+        
+        
+        
         
         //if the user has reached the end of all of the questions then provide a submit button instead
         if index != questionArray.count - 1{
@@ -363,6 +380,17 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     }
     
     
+    func getAnswers() -> [Int]{
+        var answers = [Int]()
+            for i in 0..<mainOptions.count{
+                if mainOptions[i].button?.backgroundColor == UIColor.green{
+                    answers.append(getQuestionType().options[i].value)
+                }
+            }
+        return answers
+    }
+    
+    
     
     //This function is used to display what answers the user has previously chosen assuming that there exists
     //a previously chosen answer
@@ -552,6 +580,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         self.view.endEditing(true)
     }
     
+    @objc func exit(sender: UIButton){
+
+        let views = self.navigationController?.viewControllers
+        self.navigationController?.popToViewController(views![(views?.count)! - index - 3], animated: true)
+    }
+    
     
     @objc func submit(sender: UIBarButtonItem){
         submitQuestion()
@@ -572,8 +606,6 @@ class questionView: UIViewController, UINavigationControllerDelegate {
 
     
     @objc func printParams(sender: UIButton){
-        answerScroll.updateConstraints()
-        questScroll.updateConstraints()
         print(currParams)
     }
     
@@ -612,8 +644,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             nextQuestion.masterQuestion = self.masterQuestion
             nextQuestion.pqid = self.pqid
             
-            if getAnswer() != -24{
-                 currParams["response_\(questionArray[index].id)"] = getAnswer()
+            print(getAnswers().count)
+            if getAnswers().count != 0{
+                for ele in getAnswers(){
+                    currParams["response_\(questionArray[index].id)"] = ele
+                }
             }
            
             self.navigationController?.pushViewController(nextQuestion, animated: true)
