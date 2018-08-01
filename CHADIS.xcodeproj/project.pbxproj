@@ -30,6 +30,7 @@
 		827B671C20CB303E002E4F24 /* patientInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B671B20CB303E002E4F24 /* patientInfoView.swift */; };
 		827B672020CED0D8002E4F24 /* questCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B671F20CED0D8002E4F24 /* questCell.swift */; };
 		828B57F0211107C200B139D7 /* BounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828B57EF211107C200B139D7 /* BounceButton.swift */; };
+		828B57F22112620C00B139D7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828B57F12112620C00B139D7 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		827B671B20CB303E002E4F24 /* patientInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = patientInfoView.swift; sourceTree = "<group>"; };
 		827B671F20CED0D8002E4F24 /* questCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questCell.swift; sourceTree = "<group>"; };
 		828B57EF211107C200B139D7 /* BounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButton.swift; sourceTree = "<group>"; };
+		828B57F12112620C00B139D7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				826355E520EE7BF700B9B0F5 /* staticQuestView.swift */,
 				826355E720EE992900B9B0F5 /* questionView.swift */,
 				828B57EF211107C200B139D7 /* BounceButton.swift */,
+				828B57F12112620C00B139D7 /* Extensions.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				827B670420C585A1002E4F24 /* ViewController.swift in Sources */,
 				826355E620EE7BF700B9B0F5 /* staticQuestView.swift in Sources */,
 				821358C720E531FA00223314 /* QuestHeaderCell.swift in Sources */,
+				828B57F22112620C00B139D7 /* Extensions.swift in Sources */,
 				821358C320E139F000223314 /* WKWebViewWrapper.swift in Sources */,
 				827B670220C585A0002E4F24 /* AppDelegate.swift in Sources */,
 				827B672020CED0D8002E4F24 /* questCell.swift in Sources */,

@@ -81,8 +81,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         mutable.setFontFace(font: UIFont(name: "Times New Roman", size: 20)!)
         //label.text = questionArray[index].text
         label.attributedText = mutable
-       
-        print(label.numberOfVisibleLines)
+      
         
            // print("greater than")
             let scroll = UIScrollView()
@@ -166,6 +165,15 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         
         
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if checkReady() {
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
+        }else{
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
+        }
     }
     
     
@@ -663,43 +671,4 @@ class questionView: UIViewController, UINavigationControllerDelegate {
 }
 
 
-extension String {
-    var htmlToAttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else { return NSAttributedString() }
-        do {
-            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
-        } catch {
-            return NSAttributedString()
-        }
-    }
-    var htmlToString: String {
-        return htmlToAttributedString?.string ?? ""
-    }
-}
 
-extension NSMutableAttributedString {
-    func setFontFace(font: UIFont, color: UIColor? = nil) {
-        beginEditing()
-        self.enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
-            if let f = value as? UIFont, let newFontDescriptor = f.fontDescriptor.withFamily(font.familyName).withSymbolicTraits(f.fontDescriptor.symbolicTraits) {
-                let newFont = UIFont(descriptor: newFontDescriptor, size: font.pointSize)
-                removeAttribute(.font, range: range)
-                addAttribute(.font, value: newFont, range: range)
-                if let color = color {
-                    removeAttribute(.foregroundColor, range: range)
-                    addAttribute(.foregroundColor, value: color, range: range)
-                }
-            }
-        }
-        endEditing()
-    }
-}
-
-extension UILabel {
-    var numberOfVisibleLines: Int {
-        let textSize = CGSize(width: CGFloat(self.frame.size.width), height: CGFloat(MAXFLOAT))
-        let rHeight: Int = lroundf(Float(self.sizeThatFits(textSize).height))
-        let charSize: Int = lroundf(Float(self.font.pointSize))
-        return rHeight / charSize
-    }
-}
