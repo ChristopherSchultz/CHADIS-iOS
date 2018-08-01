@@ -99,7 +99,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scroll.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.35).isActive = true
             scroll.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
             scroll.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            scroll.backgroundColor = UIColor.purple
+            scroll.backgroundColor = UIColor.clear
             scroll.addSubview(label)
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
             questScroll = scroll
@@ -196,29 +196,20 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         scrollView.contentSize = CGSize(width: self.view.frame.width, height: 300)
         self.view.addSubview(scrollView)
-        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = UIColor.init(red: 232, green: 236, blue: 255)
+        scrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
+        scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
         //if the number of options excede 4 then provide a scroll view so the user can view all of the options
         if options.count > 4 {
            
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: CGFloat(options.count * 105))
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.backgroundColor = UIColor.cyan
-            scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: 0).isActive = true
-            scrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-
-        }else{
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.backgroundColor = UIColor.cyan
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            scrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            scrollView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65).isActive = true
-            scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1, constant: 0).isActive = true
-     
         
         }
+        
         
         //for every option provided that it is either a button or a button with a textfield, generate it and
         //display said option
