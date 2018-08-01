@@ -29,6 +29,7 @@
 		827B671A20C9B87B002E4F24 /* PatientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B671920C9B87B002E4F24 /* PatientCell.swift */; };
 		827B671C20CB303E002E4F24 /* patientInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B671B20CB303E002E4F24 /* patientInfoView.swift */; };
 		827B672020CED0D8002E4F24 /* questCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827B671F20CED0D8002E4F24 /* questCell.swift */; };
+		828B57F0211107C200B139D7 /* BounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828B57EF211107C200B139D7 /* BounceButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		827B671920C9B87B002E4F24 /* PatientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientCell.swift; sourceTree = "<group>"; };
 		827B671B20CB303E002E4F24 /* patientInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = patientInfoView.swift; sourceTree = "<group>"; };
 		827B671F20CED0D8002E4F24 /* questCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questCell.swift; sourceTree = "<group>"; };
+		828B57EF211107C200B139D7 /* BounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				821358AC20D0145500223314 /* QuestWebView.swift */,
 				826355E520EE7BF700B9B0F5 /* staticQuestView.swift */,
 				826355E720EE992900B9B0F5 /* questionView.swift */,
+				828B57EF211107C200B139D7 /* BounceButton.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				827B671620C6DB79002E4F24 /* patientViewController.swift in Sources */,
 				827B671420C5D0D5002E4F24 /* webViewController.swift in Sources */,
 				826355E820EE992900B9B0F5 /* questionView.swift in Sources */,
+				828B57F0211107C200B139D7 /* BounceButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

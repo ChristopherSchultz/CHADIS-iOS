@@ -217,8 +217,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         for option in options {
             var opt = questionOptions()
             if option.freeResponseDataType  == nil && options.count <= 4 {
-                let button: UIButton!
-                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                let button: BounceButton!
+                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
 
                
 
@@ -236,9 +236,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             indexOpt = indexOpt +  1
             }else if options.count > 4{
             
-                let button: UIButton!
+                let button: BounceButton!
               
-                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                    button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
               
                     //button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
@@ -259,9 +259,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             }else if getSelectedOption().freeResponseDataType == "date"{
                 
                 
-                let button: UIButton!
+                let button: BounceButton!
                 scrollView.contentSize.width = (scrollView.contentSize.width) + 20
-                button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
                 
                 // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
@@ -284,9 +284,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             
             }else{ //code for a button and a textfield
                 
-                let button: UIButton!
+                let button: BounceButton!
                 scrollView.contentSize.width = (scrollView.contentSize.width) + 20
-                    button = UIButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                    button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
                
                    // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
@@ -583,7 +583,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     @objc func exit(sender: UIButton){
 
         let views = self.navigationController?.viewControllers
-        self.navigationController?.popToViewController(views![(views?.count)! - index - 3], animated: true)
+        self.navigationController?.popToViewController(views![(views?.count)! - index - 4], animated: true)
+        
     }
     
     

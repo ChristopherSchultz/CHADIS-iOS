@@ -105,27 +105,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     //a questionnaire thereby necessitating a refresh of the questinnaires
     //NOTE: Can probably compartamentalize all of this code into a separate function (TO DO)
     override func viewWillAppear(_ animated: Bool) {
-    
-        let sem = DispatchSemaphore(value: 0)
-        let id = "?id=\((patient?.id)!)"
-        let url = URL(string: baseURLString! + "respondent/api/patient/questionnaires.do" + id)
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
-        session.dataTask(with: request) { (data,response,error) in
-            if let data = data {
-                do {
-                    //let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
-                    let decodeQuest = try JSONDecoder().decode(questJson.self, from: data)
-                    self.questList = decodeQuest.questionnaires
-                    sem.signal()
-                } catch {
-                    print(error)
-                }
-            }
-            }.resume()
-        sem.wait()
-        questTable.reloadData()
-        
+        viewDidLoad()
     }
     
     //TABLE VIEW FUNCTIONS

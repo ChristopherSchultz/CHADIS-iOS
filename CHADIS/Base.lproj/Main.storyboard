@@ -419,7 +419,7 @@
                                             <constraint firstAttribute="height" constant="20" id="DrZ-YO-T06"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afF-QB-H9e">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afF-QB-H9e" customClass="BounceButton" customModule="CHADIS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="125" width="335" height="40"/>
                                         <color key="backgroundColor" red="0.21568627450980393" green="0.57874891493055558" blue="0.16056315104166666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -448,7 +448,7 @@
                                                 <color key="textColor" white="0.22393120659722221" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87A-QY-Od0">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87A-QY-Od0" customClass="BounceButton" customModule="CHADIS" customModuleProvider="target">
                                                 <rect key="frame" x="250" y="0.0" width="75" height="40"/>
                                                 <color key="backgroundColor" red="0.0" green="0.4091525607638889" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
