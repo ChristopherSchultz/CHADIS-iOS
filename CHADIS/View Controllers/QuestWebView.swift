@@ -103,7 +103,6 @@ class QuestWebView: UIViewController, WKScriptMessageHandler, UIWebViewDelegate,
     }
 
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-       // print("I get run")
         questView.evaluateJavaScript("confirmQuit(thisform,quitmessage)", completionHandler: nil)
         NSLog("request: \(request)")
         return true

@@ -38,11 +38,13 @@ class patientViewController: UITableViewController {
     var pass: String!
     let searchController = UISearchController(searchResultsController: nil)
     var filteredPatients = [Patient]()
+    var success = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        masterPatientList = PatientList(patients: [Patient]())
+       
         //these lines of code are used to define the search bar
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -81,11 +83,12 @@ class patientViewController: UITableViewController {
                    // let json = try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                     let decodePatient = try JSONDecoder().decode(PatientList.self, from: data)
                  //  print("Patients: \(decodePatient)")
-                    
+                    self.success = true
                     //this line gets the patient array and puts it into a local variable
                     self.masterPatientList = decodePatient
                     
                 } catch {
+                    self.success = false
                     print(error)
                 }
                 self.sem.signal()
@@ -93,9 +96,10 @@ class patientViewController: UITableViewController {
           
         }.resume()
         sem.wait()
-        
-        
-    
+        if !success {
+            self.navigationController?.popViewController(animated: true)
+            self.errorEscape(error: "Error")
+        }
     }
     
     
@@ -120,7 +124,7 @@ class patientViewController: UITableViewController {
         if isFiltering() {
             return filteredPatients.count
         }else{
-        return (masterPatientList?.patients.count)!
+            return (masterPatientList?.patients.count)!
         }
         
     }

@@ -1,3 +1,4 @@
+
 //
 //  staticQuestView.swift
 //  CHADIS
@@ -129,14 +130,19 @@ class staticQuestView: UIViewController {
                     
                     
                 } catch {
+                    
                     let stringData = String.init(data: data, encoding: String.Encoding.utf8)
                     print(stringData)
-
+                    self.dismiss(animated: true, completion: nil)
+                    
+                    self.navigationController?.popViewController(animated: true)
                     print(error)
+    
                 }
             }
             }.resume()
         sem.wait()
+        
    
         //This block of code provides a default introduction if one does not exist
         if masterQuestion?.questionnaire.introduction != nil {

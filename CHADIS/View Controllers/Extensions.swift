@@ -63,3 +63,32 @@ extension UIColor {
     }
     
 }
+
+extension UINavigationController {
+    public func popToLogin(){
+        let views = self.viewControllers
+        self.popToViewController(views[views.count - views.count], animated: true)
+    }
+}
+
+extension UIViewController {
+    public func errorEscape(error: String) {
+        self.notifyUser2("Error Occurred", err: error)
+    }
+    
+    func notifyUser2(_ msg: String, err: String?) {
+        let alert = UIAlertController(title: msg,
+                                      message: err,
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true,
+                     completion: nil)
+    }
+    
+  
+}

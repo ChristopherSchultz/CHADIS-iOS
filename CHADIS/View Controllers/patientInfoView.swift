@@ -51,13 +51,15 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
     var submitQuest = [quest]()
     
     
+    var success = false
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         questTable.delegate = self
         questTable.dataSource = self
        
-        
         //same lines of code used to instantiate the search bar
        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -84,14 +86,24 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
 
                     self.questList = decodeQuest.questionnaires
                     self.sortQuest(quests: self.questList)
-                   
+                    self.success = true
                     sem.signal()
                 } catch {
+                    self.success = false
+                    sem.signal()
                     print(error)
                 }
             }
         }.resume()
         sem.wait()
+        if !success {
+            let view = self.navigationController?.viewControllers
+            self.navigationController?.popToViewController(view![0], animated: true)
+            self.notifyUser2("Error JSON", err: "")
+   
+        }
+        
+        
         questTable.rowHeight = UITableViewAutomaticDimension
         questTable.estimatedRowHeight = 200
         questTable.reloadData()

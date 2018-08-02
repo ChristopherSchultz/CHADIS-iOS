@@ -269,7 +269,7 @@ extension ViewController {
     
     //custom function in order to handle successes, simply displays an alert that indicates
     //that authentication was successful
-    func notifyUser(_ msg: String, err: String?) {
+    public func notifyUser(_ msg: String, err: String?) {
         let alert = UIAlertController(title: msg,
                                       message: err,
                                       preferredStyle: .alert)

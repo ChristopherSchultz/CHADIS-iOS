@@ -106,9 +106,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             self.view.bringSubview(toFront: progressBar)
       
         
-        label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
-        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
+        label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -10).isActive = true
+        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -5).isActive = false
+        label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = false
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         label.sizeToFit()
         
@@ -583,6 +583,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
 
         let views = self.navigationController?.viewControllers
         self.navigationController?.popToViewController(views![(views?.count)! - index - 4], animated: true)
+
         
     }
     
