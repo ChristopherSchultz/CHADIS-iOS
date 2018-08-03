@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreGraphics
 
 
 var currParams = [String:Int]()
@@ -46,6 +47,9 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     var questScroll: UIScrollView!
     var error: UILabel?
     var toolBar: UIToolbar!
+    var selectColor: UIColor = UIColor.black
+    var unSelectColor: UIColor = UIColor.clear
+    
  
     
     
@@ -94,6 +98,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             }else{
                 scroll.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height/3)
             }
+        
+        
             scroll.translatesAutoresizingMaskIntoConstraints = false
             scroll.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
             scroll.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.35).isActive = true
@@ -215,44 +221,21 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         //display said option
         for option in options {
             var opt = questionOptions()
-            if option.freeResponseDataType  == nil && options.count <= 4 {
-                let button: BounceButton!
-                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
-
-               
-
-           // button.translatesAutoresizingMaskIntoConstraints = false
-            button.backgroundColor = UIColor.blue
-            button.layer.cornerRadius = 10
-            button.setTitle("\(option.text)", for: .normal)
-            button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
-            opt.button = button
-            mainOptions.append(opt)
-           
-                
-            scrollView.addSubview(button)
-            view.addSubview(scrollView)
-            indexOpt = indexOpt +  1
-            }else if options.count > 4{
+            if option.freeResponseDataType  == nil {
             
                 let button: BounceButton!
               
-                    button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
-              
-                    //button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
-                
-                button.backgroundColor = UIColor.blue
+                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
+                button.backgroundColor = unSelectColor
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
-                button.layer.cornerRadius = 10
+                SetupButton(button: button)
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 opt.button = button
                 mainOptions.append(opt)
                 scrollView.addSubview(button)
-                indexOpt = indexOpt + 1
-            
-            
+                
             
             
             }else if getSelectedOption().freeResponseDataType == "date"{
@@ -260,14 +243,14 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 
                 let button: BounceButton!
                 scrollView.contentSize.width = (scrollView.contentSize.width) + 20
-                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
+                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
                 
                 // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
-                button.backgroundColor = UIColor.blue
+                button.backgroundColor = unSelectColor
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
-                button.layer.cornerRadius = 10
+                SetupButton(button: button)
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                  opt.button = button
@@ -282,29 +265,27 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             
             
             }else{ //code for a button and a textfield
-                
+                print("text")
                 let button: BounceButton!
                 scrollView.contentSize.width = (scrollView.contentSize.width) + 20
-                    button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 50, width: 150, height: 40))
-               
+                button = BounceButton(frame: CGRect(x: 25, y: 50 + indexOpt * 100, width: 150, height: 40))
                    // button = UIButton(frame: CGRect(x: 25, y: 300 + indexOpt * 100, width: 150, height: 40))
                 
-                button.backgroundColor = UIColor.blue
+                button.backgroundColor = unSelectColor
                 button.setTitle("\(option.text)", for: .normal)
                 button.addTarget(self, action: #selector(questionView.isSelected(sender:)), for: UIControlEvents.touchUpInside)
-                button.layer.cornerRadius = 10
+                SetupButton(button: button)
                 button.titleLabel?.numberOfLines = 0
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
-                //button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
+                
                 var text: UITextField!{
                     didSet{
-                        print("I'm working")
                         if checkReady() {
                             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
                         }
                     }
                 }
-                      text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 50, width: 300, height: 40))
+                      text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 50 + indexOpt * 100, width: 300, height: 40))
                     //text = UITextField(frame: CGRect(x: Int(50 + button.frame.width), y: 300 + indexOpt * 100, width: 300, height: 50))
                 text.borderStyle = .roundedRect
                 text.alpha = 0.7
@@ -313,6 +294,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 opt.text = text
                 opt.text?.addTarget(self, action: #selector(questionView.textfieldDidChange(sender:)), for: UIControlEvents.editingChanged)
                 text.inputAccessoryView = toolBar
+                
                 mainOptions.append(opt)
                 scrollView.addSubview(button)
                 scrollView.addSubview(text)
@@ -366,7 +348,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         var ansIndex = -24
         if getQuestionType().multiplicity == "single"{
             for i in 0..<mainOptions.count{
-                if mainOptions[i].button?.backgroundColor == UIColor.green{
+                if mainOptions[i].button?.backgroundColor == selectColor{
                     ansIndex = i
                 }
             }
@@ -382,7 +364,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     func getAnswers() -> [Int]{
         var answers = [Int]()
             for i in 0..<mainOptions.count{
-                if mainOptions[i].button?.backgroundColor == UIColor.green{
+                if mainOptions[i].button?.backgroundColor == selectColor{
                     answers.append(getQuestionType().options[i].value)
                 }
             }
@@ -401,7 +383,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 let response = thing.value
                 for i in 0..<getQuestionType().options.count{
                     if getQuestionType().options[i].value == response {
-                        mainOptions[i].button?.backgroundColor = UIColor.green
+                        mainOptions[i].button?.backgroundColor = selectColor
+                        mainOptions[i].button?.setTitleColor(UIColor.white, for: .normal)
                     }
                 }
             }
@@ -419,15 +402,15 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         }
         if getQuestionType().multiplicity == "single"{
             for opt in mainOptions{
-                opt.button?.backgroundColor = UIColor.blue
+                opt.button?.backgroundColor = unSelectColor
             }
-            useOpt?.button?.backgroundColor = UIColor.green
+            useOpt?.button?.backgroundColor = selectColor
         }else if getQuestionType().multiplicity == "multiple"{
-            useOpt?.button?.backgroundColor = UIColor.green
+            useOpt?.button?.backgroundColor = selectColor
         }
         
         if sender.text == "" {
-            useOpt?.button?.backgroundColor = UIColor.blue
+            useOpt?.button?.backgroundColor = unSelectColor
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
         }
         if checkFreeText() {
@@ -455,7 +438,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     func getSelectedOption() -> option {
         if getQuestionType().multiplicity == "single"{
             for i in 0..<mainOptions.count {
-                if mainOptions[i].button?.backgroundColor == UIColor.green{
+                if mainOptions[i].button?.backgroundColor == selectColor{
                     return getQuestionType().options[i]
                 }
             }
@@ -469,21 +452,18 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         let questType = getQuestionType()
         if questType.multiplicity == "single"{
             
-        if sender.backgroundColor == UIColor.green{
-            sender.backgroundColor = UIColor.blue
+        if sender.backgroundColor == selectColor{
+            SwitchButton(button: sender)
         }else{
             for opt in mainOptions{
-                opt.button?.backgroundColor = UIColor.blue
+                opt.button?.backgroundColor = unSelectColor
+                opt.button?.setTitleColor(UIColor.black, for: .normal)
             }
-            sender.backgroundColor = UIColor.green
+            SwitchButton(button: sender)
         }
             
         }else if questType.multiplicity == "multiple"{
-            if sender.backgroundColor == UIColor.green{
-            sender.backgroundColor = UIColor.blue
-            }else{
-                sender.backgroundColor = UIColor.green
-            }
+           SwitchButton(button: sender)
         
         }else if questType.multiplicity == "hybrid-smc"{
             var currOpt: questionOptions
@@ -496,22 +476,14 @@ class questionView: UIViewController, UINavigationControllerDelegate {
                 }
             }
             if getQuestionType().options[optIndex].mutuallyExclusive != nil {
-                if sender.backgroundColor == UIColor.green{
-                    sender.backgroundColor = UIColor.blue
-                }else{
-                    sender.backgroundColor = UIColor.green
-                }
+                SwitchButton(button: sender)
             }else{
                 for i in 0..<mainOptions.count {
                     if getQuestionType().options[i].mutuallyExclusive == nil{
-                        mainOptions[i].button?.backgroundColor = UIColor.blue
+                        mainOptions[i].button?.backgroundColor = unSelectColor
                     }
                 }
-                if sender.backgroundColor == UIColor.green {
-                    sender.backgroundColor = UIColor.blue
-                }else{
-                    sender.backgroundColor = UIColor.green
-                }
+                SwitchButton(button: sender)
             }
 
         }
@@ -519,7 +491,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         if checkReady(){
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.green
         }else{
-            print("I'm here")
+            
             self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
         }
     }
@@ -535,7 +507,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     func checkFreeText() -> Bool{
         for i in 0..<mainOptions.count{
-            if mainOptions[i].button?.backgroundColor == UIColor.green && getSelectedOption().freeResponseRegexp != nil{
+            if mainOptions[i].button?.backgroundColor == selectColor && getSelectedOption().freeResponseRegexp != nil{
                print(getSelectedOption().freeResponseRegexp!)
                 if mainOptions[i].text?.text?.range(of: getSelectedOption().freeResponseRegexp!, options: String.CompareOptions.regularExpression, range: nil, locale: nil) != nil {
                     return true
@@ -554,15 +526,15 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         let type = getQuestionType()
         if type.multiplicity == "single" || type.multiplicity == "multiple"{
             for opt in mainOptions {
-                if opt.button?.backgroundColor == UIColor.green && opt.text == nil {
+                if opt.button?.backgroundColor == selectColor && opt.text == nil {
                     return true
-                }else if opt.button?.backgroundColor == UIColor.green && checkFreeText(){
+                }else if opt.button?.backgroundColor == selectColor && checkFreeText(){
                     return true
                 }
             }
         }else if type.multiplicity == "hybrid-smc"{
             for opt in mainOptions{
-                if opt.button?.backgroundColor == UIColor.green {
+                if opt.button?.backgroundColor == selectColor {
                     return true
                 }
             }
@@ -658,7 +630,26 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    func SwitchButton(button: UIButton){
+        if button.backgroundColor == selectColor{
+            button.backgroundColor = unSelectColor
+            button.setTitleColor(UIColor.black, for: .normal)
+            
+        }else{
+            button.setTitleColor(UIColor.white, for: .normal)
+            button.backgroundColor = selectColor
+        }
     
+        
+    }
+    
+    func SetupButton(button: UIButton){
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 0.5
+        
+    }
     
 }
 
