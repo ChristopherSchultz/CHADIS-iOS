@@ -75,6 +75,7 @@ class staticQuestView: UIViewController {
     var questid: Int!
     var masterQuestion: questionJSON?
     var questionArray:[questions]?
+    var success = false
     
     
     @IBOutlet weak var introductionLabel: UILabel!
@@ -126,6 +127,7 @@ class staticQuestView: UIViewController {
                     let decodeQuest = try JSONDecoder().decode(questionJSON.self, from: data)
                     self.masterQuestion = decodeQuest
                     print(json)
+                    self.success = true
                     sem.signal()
                     
                     
@@ -133,9 +135,8 @@ class staticQuestView: UIViewController {
                     
                     let stringData = String.init(data: data, encoding: String.Encoding.utf8)
                     print(stringData)
-                    self.dismiss(animated: true, completion: nil)
-                    
-                    self.navigationController?.popViewController(animated: true)
+                    self.success = false
+                    sem.signal()
                     print(error)
     
                 }
@@ -143,11 +144,16 @@ class staticQuestView: UIViewController {
             }.resume()
         sem.wait()
         
+        if !success {
+            self.navigationController?.popToLogin()
+            self.notifyUser2("Bad JSON Response from Server", err: "")
+        }
+        
    
         //This block of code provides a default introduction if one does not exist
-        if masterQuestion?.questionnaire.introduction != nil {
+        if masterQuestion?.questionnaire.introduction != nil{
         introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
-        }else{
+        }else if masterQuestion?.questionnaire.name != nil{
             introductionLabel.text = "Welcome to the \((masterQuestion?.questionnaire.name)!)"
         }
         introductionLabel.adjustsFontSizeToFitWidth = true

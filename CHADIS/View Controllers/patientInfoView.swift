@@ -97,8 +97,7 @@ class patientInfoView: UIViewController, UITableViewDelegate, UITableViewDataSou
         }.resume()
         sem.wait()
         if !success {
-            let view = self.navigationController?.viewControllers
-            self.navigationController?.popToViewController(view![0], animated: true)
+            self.navigationController?.popToLogin()
             self.notifyUser2("Error JSON", err: "")
    
         }
