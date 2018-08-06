@@ -8,7 +8,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -785,27 +784,25 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="442"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDa-PR-V04">
-                                        <rect key="frame" x="19" y="0.0" width="337.5" height="750"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="750" id="rXX-9O-pcm"/>
-                                        </constraints>
+                                        <rect key="frame" x="19" y="10" width="338" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="nDa-PR-V04" firstAttribute="centerX" secondItem="WCm-E0-ULT" secondAttribute="centerX" id="2yu-B5-xhz"/>
-                                    <constraint firstItem="nDa-PR-V04" firstAttribute="top" secondItem="WCm-E0-ULT" secondAttribute="top" id="B43-g9-EH7"/>
-                                    <constraint firstItem="nDa-PR-V04" firstAttribute="width" secondItem="WCm-E0-ULT" secondAttribute="width" multiplier="0.9" id="Gcp-zx-dtb"/>
-                                    <constraint firstAttribute="trailing" secondItem="nDa-PR-V04" secondAttribute="trailing" id="Ob6-yA-i6m"/>
-                                    <constraint firstAttribute="bottom" secondItem="nDa-PR-V04" secondAttribute="bottom" constant="81" id="c9S-5x-dUK"/>
+                                    <constraint firstItem="nDa-PR-V04" firstAttribute="bottom" secondItem="WCm-E0-ULT" secondAttribute="bottomMargin" id="OiI-af-AeP"/>
+                                    <constraint firstItem="nDa-PR-V04" firstAttribute="centerX" secondItem="WCm-E0-ULT" secondAttribute="centerX" id="S51-sQ-SvS"/>
+                                    <constraint firstItem="nDa-PR-V04" firstAttribute="leading" secondItem="WCm-E0-ULT" secondAttribute="leading" constant="19" id="cPt-Cd-lKh"/>
+                                    <constraint firstItem="nDa-PR-V04" firstAttribute="top" secondItem="WCm-E0-ULT" secondAttribute="top" constant="10" id="dh1-yG-0CV"/>
+                                    <constraint firstAttribute="trailing" secondItem="nDa-PR-V04" secondAttribute="trailing" constant="18" id="rAB-pE-XBu"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="eGh-Gd-hsu" firstAttribute="bottom" secondItem="WCm-E0-ULT" secondAttribute="bottom" constant="117" id="4qt-oe-h2D"/>
+                            <constraint firstItem="WCm-E0-ULT" firstAttribute="centerX" secondItem="eGh-Gd-hsu" secondAttribute="centerX" id="ME8-eu-NPh"/>
                             <constraint firstItem="WCm-E0-ULT" firstAttribute="centerX" secondItem="R9o-o7-WHk" secondAttribute="centerX" id="UY1-Q9-KpP"/>
                             <constraint firstItem="WCm-E0-ULT" firstAttribute="width" secondItem="Swe-Cd-UvM" secondAttribute="width" id="h3S-sm-XWO"/>
                             <constraint firstItem="R9o-o7-WHk" firstAttribute="centerX" secondItem="eGh-Gd-hsu" secondAttribute="centerX" id="kO0-Wp-1t7"/>

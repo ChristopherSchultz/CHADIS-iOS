@@ -79,6 +79,7 @@ class staticQuestView: UIViewController {
     
     
     @IBOutlet weak var introductionLabel: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     //This action sends the user to the first question while passing in relevant information
     @IBAction func sendToQuestion(_ sender: Any) {
@@ -152,7 +153,11 @@ class staticQuestView: UIViewController {
    
         //This block of code provides a default introduction if one does not exist
         if masterQuestion?.questionnaire.introduction != nil{
-        introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
+        let attributed = masterQuestion?.questionnaire.introduction?.htmlToAttributedString
+        let mutable = NSMutableAttributedString(attributedString: attributed!)
+        mutable.setFontFace(font: UIFont(name: "Times New Roman", size: 20)!)
+        introductionLabel.attributedText = mutable
+        //introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
         }else if masterQuestion?.questionnaire.name != nil{
             introductionLabel.text = "Welcome to the \((masterQuestion?.questionnaire.name)!)"
         }
@@ -193,4 +198,6 @@ class staticQuestView: UIViewController {
        // print(result)
         return result
     }
+    
+   
 }
