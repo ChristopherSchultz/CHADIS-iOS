@@ -127,7 +127,11 @@ class ViewController: UIViewController {
     //function that is called every time the view controller is succesffully loaded
     //Note: the function is only called once since it is attached to a navigation bar
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+        
+        UIPasteboard.general.string = ""
         loginFailed.isHidden = true
         if baseURLString == nil {
             UserDefaults.standard.set("https://dev.chadis.com/cscults-chaids/", forKey: "baseURL")

@@ -55,31 +55,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         
-        progressBar = UIProgressView(frame: CGRect(x: 0, y: 75, width: self.view.frame.width, height: 20))
-        progressBar.center.x = self.view.center.x
-        progressBar.setProgress(Float(index)/Float(questionArray.count), animated: true)
-        progressBar.progressTintColor = UIColor.green
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.view.addSubview(progressBar)
-        progressBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        progressBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.height)! + 20).isActive = true
-        progressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+
         
         super.viewDidLoad()
         //determines all of the upper level information that will want to be displayed
         self.navigationItem.title = "Question \(index + 1)"
         self.view.backgroundColor = UIColor.white
        
-        toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(questionView.doneButtonAction(sender:)))
-        toolBar.setItems([flexSpace,doneBtn], animated: false)
-        toolBar.sizeToFit()
-        
-        
-     
         let attributed = questionArray[index].text.htmlToAttributedString
         let mutable = NSMutableAttributedString(attributedString: attributed!)
         mutable.setFontFace(font: UIFont(name: "Times New Roman", size: 20)!)
@@ -109,7 +91,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
             scroll.addSubview(label)
             label.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 20).isActive = true
             questScroll = scroll
-            self.view.bringSubview(toFront: progressBar)
+        
       
         
         label.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -10).isActive = true
@@ -118,33 +100,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         label.sizeToFit()
         
-       
+    
         generateOptions()
         displayAnswer()
-        
-        //This is a dummy button that currently displays the parameters up to the current point
-        //maybe this will be used as a save and exit button
-        let display = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
-        display.addTarget(self, action: #selector(questionView.printParams(sender:)), for: UIControlEvents.touchUpInside)
-        display.setTitle("Display", for: .normal)
-        display.backgroundColor = UIColor.purple
-        display.layer.cornerRadius = 5
-        self.view.addSubview(display)
-        display.translatesAutoresizingMaskIntoConstraints = false
-        display.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        display.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        display.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
-        
-        let exit = UIButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
-        exit.addTarget(self, action: #selector(questionView.exit(sender:)), for: UIControlEvents.touchUpInside)
-        exit.setTitle("Exit", for: .normal)
-        exit.backgroundColor = UIColor.red
-        exit.layer.cornerRadius = 5
-        self.view.addSubview(exit)
-        exit.translatesAutoresizingMaskIntoConstraints = false
-        exit.bottomAnchor.constraint(equalTo: display.topAnchor, constant: -20).isActive = true
-        exit.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        exit.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        InitialSetup()
+   
         
         
         
@@ -171,6 +131,56 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
         
         
+    }
+    
+    /* This function is meant to set up basic buttons, and also optional debugging options throughout the question
+     screen. It's meant to clean up the view did load while separating basic aspects making each element
+     easier to access. */
+    func InitialSetup() {
+        
+        //This is a dummy button that currently displays the parameters up to the current point
+        //maybe this will be used as a save and exit button
+        let display = BounceButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
+        display.addTarget(self, action: #selector(questionView.printParams(sender:)), for: UIControlEvents.touchUpInside)
+        display.setTitle("Display", for: .normal)
+        display.backgroundColor = UIColor.purple
+        display.layer.cornerRadius = 5
+        self.view.addSubview(display)
+        display.translatesAutoresizingMaskIntoConstraints = false
+        display.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        display.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        display.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        
+        let exit = BounceButton(frame: CGRect(x: 300, y: 200, width: 200, height: 50))
+        exit.addTarget(self, action: #selector(questionView.exit(sender:)), for: UIControlEvents.touchUpInside)
+        exit.setTitle("Exit", for: .normal)
+        exit.backgroundColor = UIColor.red
+        exit.layer.cornerRadius = 5
+        self.view.addSubview(exit)
+        exit.translatesAutoresizingMaskIntoConstraints = false
+        exit.bottomAnchor.constraint(equalTo: display.topAnchor, constant: -20).isActive = true
+        exit.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        exit.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        
+        //this is the whole initilization of the progress bar
+        progressBar = UIProgressView(frame: CGRect(x: 0, y: 75, width: self.view.frame.width, height: 20))
+        progressBar.center.x = self.view.center.x
+        progressBar.setProgress(Float(index)/Float(questionArray.count), animated: true)
+        progressBar.progressTintColor = UIColor.green
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(progressBar)
+        progressBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        progressBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.navigationController?.navigationBar.frame.height)! + 20).isActive = true
+        progressBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(questionView.doneButtonAction(sender:)))
+        toolBar.setItems([flexSpace,doneBtn], animated: false)
+        toolBar.sizeToFit()
+        self.view.bringSubview(toFront: progressBar)
     }
     
     
@@ -466,12 +476,11 @@ class questionView: UIViewController, UINavigationControllerDelegate {
            SwitchButton(button: sender)
         
         }else if questType.multiplicity == "hybrid-smc"{
-            var currOpt: questionOptions
+        
             var optIndex: Int = 0
             for i in 0..<mainOptions.count{
                 if sender == mainOptions[i].button {
                     print("I found it")
-                    currOpt = mainOptions[i]
                     optIndex = i
                 }
             }
@@ -505,6 +514,8 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    //boolean to check whether the free response adheres to the regular expression given
+    //by the question if any regular expression is given at all
     func checkFreeText() -> Bool{
         for i in 0..<mainOptions.count{
             if mainOptions[i].button?.backgroundColor == selectColor && getSelectedOption().freeResponseRegexp != nil{
@@ -547,10 +558,12 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     // self explanatory
     
     
+    //this is a button that dismisses the keyboard
     @objc func doneButtonAction(sender: UIBarButtonItem){
         self.view.endEditing(true)
     }
     
+    //this is an exit button, will probably be temporary
     @objc func exit(sender: UIButton){
 
         let views = self.navigationController?.viewControllers
@@ -559,12 +572,17 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
-    
+    //submit button
     @objc func submit(sender: UIBarButtonItem){
+        if sender.tintColor == UIColor.green{
         submitQuestion()
+        let views = self.navigationController?.viewControllers
+        self.navigationController?.popToViewController(views![(views?.count)! - index - 4], animated: true)
+        }
     }
 
     
+    //back button
     @objc func back(sender: UIBarButtonItem){
        
         if index > 0 {
@@ -577,12 +595,13 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         }
     }
 
-    
+    //will print the parameters at that point
     @objc func printParams(sender: UIButton){
         print(currParams)
     }
     
     
+    //will go to the next question if the user has filled the answer out correctly
     @objc func next(sender:UIBarButtonItem) {
 
             if checkReady(){
@@ -630,6 +649,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
         
     }
     
+    //this button simply switches the background
     func SwitchButton(button: UIButton){
         if button.backgroundColor == selectColor{
             button.backgroundColor = unSelectColor
@@ -642,6 +662,7 @@ class questionView: UIViewController, UINavigationControllerDelegate {
     
         
     }
+    
     
     func SetupButton(button: UIButton){
         button.setTitleColor(UIColor.black, for: .normal)

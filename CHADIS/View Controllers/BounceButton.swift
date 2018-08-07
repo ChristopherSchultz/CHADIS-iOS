@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+//the whole purpose of this class is to create a button that bounces a bit, adds a bit of flair to the whole
+//app
 class BounceButton: UIButton {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

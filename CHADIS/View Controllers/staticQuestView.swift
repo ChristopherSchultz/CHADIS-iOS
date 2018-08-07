@@ -135,7 +135,7 @@ class staticQuestView: UIViewController {
                 } catch {
                     
                     let stringData = String.init(data: data, encoding: String.Encoding.utf8)
-                    print(stringData)
+                    print(stringData ?? "no Data")
                     self.success = false
                     sem.signal()
                     print(error)
@@ -155,7 +155,7 @@ class staticQuestView: UIViewController {
         if masterQuestion?.questionnaire.introduction != nil{
         let attributed = masterQuestion?.questionnaire.introduction?.htmlToAttributedString
         let mutable = NSMutableAttributedString(attributedString: attributed!)
-        mutable.setFontFace(font: UIFont(name: "Times New Roman", size: 20)!)
+        mutable.setFontFace(font: UIFont(name: "Times New Roman", size: 19)!)
         introductionLabel.attributedText = mutable
         //introductionLabel.text = cleanIntro(intro: (masterQuestion?.questionnaire.introduction)!)
         }else if masterQuestion?.questionnaire.name != nil{

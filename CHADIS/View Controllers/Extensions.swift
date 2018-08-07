@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+//this extension is to convert raw string information into attributed string information
+//helpful for displaying html code when it is embedded into the JSON responses
 extension String {
   public var htmlToAttributedString: NSAttributedString? {
         guard let data = data(using: .utf8) else { return NSAttributedString() }
@@ -23,6 +25,7 @@ extension String {
     }
 }
 
+//this extension is used to set the font for a given attributed string
 extension NSMutableAttributedString {
    public func setFontFace(font: UIFont, color: UIColor? = nil) {
         beginEditing()
@@ -41,6 +44,7 @@ extension NSMutableAttributedString {
     }
 }
 
+//this extension is used to determine the number of visible lines so I know what to size the scroll view
 extension UILabel {
    public var numberOfVisibleLines: Int {
         let textSize = CGSize(width: CGFloat(self.frame.size.width), height: CGFloat(MAXFLOAT))
@@ -50,6 +54,9 @@ extension UILabel {
     }
 }
 
+
+//this extension allows me to initialize colors using RGB with values from 0 to 255 instead of the default
+//ratio method
 extension UIColor {
     
     convenience init(red: Int, green: Int, blue: Int) {
@@ -71,6 +78,7 @@ extension UINavigationController {
     }
 }
 
+//this extension allows me to notify the user using notifications in an easy to use manner
 extension UIViewController {
     public func errorEscape(error: String) {
         self.notifyUser2("Error Occurred", err: error)

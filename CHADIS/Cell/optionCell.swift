@@ -14,6 +14,10 @@ import UIKit
 class optionCell: UICollectionViewCell {
     
     @IBOutlet weak var optionLabel: UILabel!
+    
+    
+    
+
     override var isSelected: Bool{
         didSet{
             if self.isSelected

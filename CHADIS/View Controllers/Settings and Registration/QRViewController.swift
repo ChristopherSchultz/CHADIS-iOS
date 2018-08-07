@@ -65,6 +65,7 @@ class QRViewController: ViewController, AVCaptureMetadataOutputObjectsDelegate {
                     alert.addAction(UIAlertAction(title: "Retake", style: .default, handler: nil))
                     alert.addAction(UIAlertAction(title: "Return", style: .default, handler: { (nil) in
                         UIPasteboard.general.string = object.stringValue
+                        self.navigationController?.popViewController(animated: true)
                     }))
                     
                     present(alert,animated: true, completion: nil)
